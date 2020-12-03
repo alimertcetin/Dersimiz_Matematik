@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - "Say\u0131_0"
+  - "Say\u0131_1"
+  - "Say\u0131_2"
+  - "Say\u0131_3"
+  - "Say\u0131_4"
+  - "Say\u0131_5"
+  - "Say\u0131_6"
+  - "Say\u0131_7"
+  - "Say\u0131_8"
+  - "Say\u0131_9"
+  - BlackBoard
+  - SayiGenerator
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

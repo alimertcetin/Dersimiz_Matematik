@@ -1,0 +1,5 @@
+sceneSetups:
+- path: C:/Users/mrtme/Desktop/Sistem Analizi - Oyun Programlama/Sistem Analizi/Assets/Scenes/GameLevel_01.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
