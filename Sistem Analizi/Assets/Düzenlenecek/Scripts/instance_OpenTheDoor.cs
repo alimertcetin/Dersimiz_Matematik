@@ -160,10 +160,9 @@ public class instance_OpenTheDoor : MonoBehaviour
     }
 
     //---DoorMovement function Variables---\\
-    [SerializeField]
     [Tooltip("Eğer bu kapı sol taraftaysa işaretleyin. Not : Eğer bu ikili bir kapıysa" +
         " ve Sağ Kapı tarafından yönetiliyorsa işaretlemenize gerek yok.")]
-    bool IsThisLeftSide = false;
+    public bool IsThisLeftSide = false;
     float rnd_AnimSpeed = 0;
     void DoorMovement()
     {
