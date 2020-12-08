@@ -8,7 +8,7 @@ public class StartingCanvas_Manager : MonoBehaviour
     [SerializeField]
     GameObject[] Textler = new GameObject[5];
     [SerializeField]
-    TMP_Text NextEnd_btn_Text;
+    TMP_Text NextEnd_btn_Text = null;
     string orj_Text;
 
     [SerializeField]

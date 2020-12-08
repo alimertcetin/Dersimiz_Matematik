@@ -17,6 +17,7 @@ public class instance_Player_Inventory : MonoBehaviour
         Sayi_7 = 0,
         Sayi_8 = 0,
         Sayi_9 = 0;
+    public int Anahtar1 = 0;
 
     public int inventory_Capacity = 5;
 

@@ -123,6 +123,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3331934930051720922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b09a1f7cc0e93f4fac8c8e61c4ccb20, type: 3}
+  m_Script: {fileID: 11500000, guid: 73856b48a201a8147ae76b921426b97f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt_Notification: {fileID: 0}
+  EnvanterDolu: Envanter Dolu
+  CollectText: "Toplamak i\xE7in F'ye bas"
+  CoveredArea: 1
+  BeklenecekSure: 1
+  CollectedParticle: {fileID: 0}
