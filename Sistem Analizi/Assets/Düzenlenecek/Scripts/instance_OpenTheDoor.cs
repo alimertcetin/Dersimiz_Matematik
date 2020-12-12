@@ -150,7 +150,7 @@ public class instance_OpenTheDoor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             TriggerEntered = false;
             Txt_Notification.enabled = false;

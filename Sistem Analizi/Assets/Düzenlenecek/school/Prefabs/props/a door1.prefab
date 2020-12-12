@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 1500256853477626559}
   - component: {fileID: 8983851346428727678}
   - component: {fileID: 7015246148922256202}
-  - component: {fileID: 4956938681196876436}
   m_Layer: 0
   m_Name: Right_Door_HOLDER
   m_TagString: Untagged
@@ -151,26 +150,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.54, y: 2.41, z: 1.88}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4956938681196876436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1222571177621754924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656ebf596feda08419ff69628b4a2368, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ManageThisDoor: {fileID: 0}
-  DoorIsLocked: 0
-  Txt_Notification: {fileID: 0}
-  LockedDoor_UI: {fileID: 0}
-  Str_DoorIsOpen_Dialog: ' '
-  Str_DoorIsClosed_Dialog: ' '
-  Str_DoorIsLocked_Dialog: ' '
-  IsThisLeftSide: 0
 --- !u!1 &1880776701584313600
 GameObject:
   m_ObjectHideFlags: 0

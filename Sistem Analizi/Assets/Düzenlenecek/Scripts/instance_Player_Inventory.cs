@@ -17,7 +17,9 @@ public class instance_Player_Inventory : MonoBehaviour
         Sayi_7 = 0,
         Sayi_8 = 0,
         Sayi_9 = 0;
-    public int Anahtar1 = 0;
+    public int Anahtar_Seviye1 { get; private set; }
+    public int Anahtar_Seviye2 { get; private set; }
+    public int Anahtar_Seviye3 { get; private set; }
 
     public int inventory_Capacity = 5;
 
@@ -97,6 +99,23 @@ public class instance_Player_Inventory : MonoBehaviour
         {
             Sayi_9 += amount;
         }
+    }
+
+    public void CollectedKeycard(string KeycardColor)
+    {
+        KeycardColor = KeycardColor.ToLower();
+        if (KeycardColor == "green")
+            Anahtar_Seviye1++;
+
+        else if (KeycardColor == "yellow")
+            Anahtar_Seviye2++;
+
+        else if (KeycardColor == "red")
+            Anahtar_Seviye3++;
+        else
+            Debug.LogWarning("Keycard bulunamadı. ---->" + this.name);
+
+        txt_Manager_Info.SetKeycardChildTexts();
     }
 
     /// <summary>

@@ -6,16 +6,60 @@ using TMPro;
 public class instance_TxtManager : MonoBehaviour
 {
     instance_Player_Inventory _inventory;
-    [SerializeField]
-    TMP_Text[] Txt_Array_ChildSayilar = null;
+    [Header("HUD üzerindeki sayıların child textlerini sırasıyla ekleyin.")]
+    [SerializeField] TMP_Text[] Txt_Array_ChildSayilar = null;
+
+    [Header("Keycardlar textlerini sırasıyla ekleyin.")]
+    [Tooltip("Yeşil, sarı, kırmızı - 0,1,2 şeklinde.")]
+    [SerializeField] GameObject[] KeycardArray = new GameObject[3];
+    TMP_Text Txt_Seviye1;
+    TMP_Text Txt_Seviye2;
+    TMP_Text Txt_Seviye3;
 
     private void Start()
     {
+        Txt_Seviye1 = KeycardArray[0].GetComponentInChildren<TMP_Text>();
+        Txt_Seviye2 = KeycardArray[1].GetComponentInChildren<TMP_Text>();
+        Txt_Seviye3 = KeycardArray[2].GetComponentInChildren<TMP_Text>();
+
         //---First find the inventory and then set the correct numbers for childTexts---\\
         _inventory = FindObjectOfType<instance_Player_Inventory>();
         SetTheChildTexts();
+        SetKeycardChildTexts();
     }
 
+    public void SetKeycardChildTexts()
+    {
+        //Keycard Seviye 1
+        if (_inventory.Anahtar_Seviye1 > 0)
+        {
+            Txt_Seviye1.text = "x" + _inventory.Anahtar_Seviye1.ToString();
+            Txt_Seviye1.enabled = true;
+            KeycardArray[0].SetActive(true);
+        }
+        else
+            KeycardArray[0].SetActive(false);
+
+        //Keycard Seviye 2
+        if (_inventory.Anahtar_Seviye2 > 0)
+        {
+            Txt_Seviye2.text = "x" + _inventory.Anahtar_Seviye2.ToString();
+            Txt_Seviye2.enabled = true;
+            KeycardArray[1].SetActive(true);
+        }
+        else
+            KeycardArray[1].SetActive(false);
+
+        //Keycard Seviye 3
+        if (_inventory.Anahtar_Seviye3 > 0)
+        {
+            Txt_Seviye3.text = "x" + _inventory.Anahtar_Seviye3.ToString();
+            Txt_Seviye3.enabled = true;
+            KeycardArray[2].SetActive(true);
+        }
+        else
+            KeycardArray[2].SetActive(false);
+    }
 
     //Çalışması için
     //Diziye Child textler atanmış olmalı
