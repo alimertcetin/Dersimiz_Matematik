@@ -44,7 +44,6 @@ public class instance_LittlePeopleController : MonoBehaviour
     float Delay = 0, TempDelay;
     bool startDelay;
     private bool BlackBoard_triggered;
-    bool SayiGenerator_triggered;
 
 
     #endregion
@@ -139,7 +138,7 @@ public class instance_LittlePeopleController : MonoBehaviour
             if (timer >= NeededTimeForStartJump)
             {
                 timer = 0;
-                Jump = true; //Sıralamanın Önemi.
+                Jump = true;
                 startcountdown = false;
             }
         }
@@ -157,33 +156,11 @@ public class instance_LittlePeopleController : MonoBehaviour
         if (BlackBoard_triggered && Input.GetKeyDown(KeyCode.F))
         {
             GO_BlackBoard_UI.SetActive(!GO_BlackBoard_UI.activeSelf);
-            if (GO_BlackBoard_UI.activeSelf)
-            {
-                //Eğer GO_BlackBoard aktifse Allow_Input'u false yap.
-                Allow_Input = false;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Allow_Input = true;
-                Cursor.visible = false;
-            }
-        }
-        if (SayiGenerator_triggered && Input.GetKeyDown(KeyCode.F))
-        {
-            if (inventory.inventory_Capacity > 0)
-            {
-                int recievedNumber = SayiGenerator_TriggerEnterMethod();
-                string tag = btnManager.BlackBoard_FindTheTag(recievedNumber);
-                inventory.CapacityHasChanged(tag, 1);
-                Debug.LogWarning("Envantere eklenen sayı : " + recievedNumber);
-            }
-            else
-            {
 
-            }
+            if (GO_BlackBoard_UI.activeSelf)
+                Allow_Input = false;
+            else
+                Allow_Input = true;
         }
     }
 
@@ -246,20 +223,10 @@ public class instance_LittlePeopleController : MonoBehaviour
     {
         if(other.gameObject.tag == "BlackBoard")
             BlackBoard_triggered = true;
-
-        if(other.gameObject.tag == "SayiGenerator")
-            SayiGenerator_triggered = true;
-    }
-
-    int SayiGenerator_TriggerEnterMethod()
-    {
-        int rndNumber = Random.Range(0, 9);
-        return rndNumber;
     }
 
     private void OnTriggerExit(Collider other)
     {
         BlackBoard_triggered = false;
-        SayiGenerator_triggered = false;
     }
 }

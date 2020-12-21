@@ -20,11 +20,17 @@ public class instance_Player_Inventory : MonoBehaviour
     public int Anahtar_Seviye1 { get; private set; }
     public int Anahtar_Seviye2 { get; private set; }
     public int Anahtar_Seviye3 { get; private set; }
+    [SerializeField] int YesilKeycard;
+    [SerializeField] int sariKeycard;
+    [SerializeField] int KirmiziKeycard;
 
     public int inventory_Capacity = 5;
 
     private void Awake()
     {
+        Anahtar_Seviye1 = YesilKeycard;
+        Anahtar_Seviye2 = sariKeycard;
+        Anahtar_Seviye3 = KirmiziKeycard;
         txt_Manager_Info = FindObjectOfType<instance_TxtManager>();
     }
 
@@ -112,6 +118,27 @@ public class instance_Player_Inventory : MonoBehaviour
 
         else if (KeycardColor == "red")
             Anahtar_Seviye3++;
+        else
+            Debug.LogWarning("Keycard bulunamadı. ---->" + this.name);
+
+        txt_Manager_Info.SetKeycardChildTexts();
+    }
+
+    /// <summary>
+    /// Removes the keycard from inventory, depends on KeycardColor
+    /// </summary>
+    /// <param name="KeycardColor"></param>
+    public void RemoveKeycard(string KeycardColor)
+    {
+        KeycardColor = KeycardColor.ToLower();
+        if (KeycardColor == "green")
+            Anahtar_Seviye1--;
+
+        else if (KeycardColor == "yellow")
+            Anahtar_Seviye2--;
+
+        else if (KeycardColor == "red")
+            Anahtar_Seviye3--;
         else
             Debug.LogWarning("Keycard bulunamadı. ---->" + this.name);
 

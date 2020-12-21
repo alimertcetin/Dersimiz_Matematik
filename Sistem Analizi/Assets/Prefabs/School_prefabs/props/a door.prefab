@@ -218,7 +218,7 @@ GameObject:
   m_Layer: 0
   m_Name: Hinge
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -301,7 +301,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebeac3f9687a2740947ad75661464d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DoorLevel: 0
   ManageThisDoor: {fileID: 0}
+  LockedDoor_UI: {fileID: 5032969475379411169, guid: 0797ac883f07298468ce655b6d0be576,
+    type: 3}
   DoorIsLocked: 1
   DoorLockedQuestion: 5 * 5 + ? = 25
   DoorLockedPassword: 0
@@ -310,8 +313,7 @@ MonoBehaviour:
   Str_DoorIsOpen_Dialog: Press "F" to close
   Str_DoorIsClosed_Dialog: Press "F" to open
   Str_DoorIsLocked_Dialog: Door is locked! Press "F" to see question!
-  LockedDoor_UI: {fileID: 5032969475379411169, guid: 0797ac883f07298468ce655b6d0be576,
-    type: 3}
+  _renderer: {fileID: 23072247148951056}
   IsThisLeftSide: 0
 --- !u!65 &2500947159390568095
 BoxCollider:

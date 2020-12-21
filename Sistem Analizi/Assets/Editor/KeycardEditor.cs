@@ -20,21 +20,21 @@ public class KeycardEditor : Editor
 
         if (GUI.changed)
         {
-            if (anahtar.Keycard == KeycardLevel.Seivye_1)
+            if (anahtar.Keycard == Door_and_Keycard_Level.Yesil)
             {
                 Debug.Log("Seviye 1 seçildi.");
                 seciliAnahtar1 = true;
                 seciliAnahtar2 = false;
                 seciliAnahtar3 = false;
             }
-            if (anahtar.Keycard == KeycardLevel.Seivye_2)
+            if (anahtar.Keycard == Door_and_Keycard_Level.Sari)
             {
                 Debug.Log("Seviye 2 seçildi.");
                 seciliAnahtar1 = false;
                 seciliAnahtar2 = true;
                 seciliAnahtar3 = false;
             }
-            if (anahtar.Keycard == KeycardLevel.Seivye_3)
+            if (anahtar.Keycard == Door_and_Keycard_Level.Kirmizi)
             {
                 Debug.Log("Seviye 3 seçildi.");
                 seciliAnahtar1 = false;

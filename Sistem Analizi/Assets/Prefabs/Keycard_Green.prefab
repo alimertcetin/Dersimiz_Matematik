@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d884a8608b8a74786473c5b9133e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Keycard: 0
+  Keycard: 1
   Selected_Keycard1: 0
   Selected_Keycard2: 0
   Selected_Keycard3: 0

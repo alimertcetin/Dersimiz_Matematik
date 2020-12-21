@@ -2,36 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using System;
 
 public class instance_OpenTheDoor : MonoBehaviour
 {
-    instance_LittlePeopleController LP_Controller;
+    public Door_and_Keycard_Level DoorLevel;
+    [Header("Eğer bu bir ana kapı ise işaretleyin.")]
+    [Tooltip("Ana kapılar default olarak Red Keycard gerektirir. İsteğe bağlı olarak yukarıdan iki aşamalı şifre eklenebilir.")]
+    public bool IsThisMainDoor = false;
 
-    //---For those who has second door by side---\\
+    instance_Player_Inventory inventory;
+    instance_LittlePeopleController LP_Controller;
+    instance_btnManager btn_manager;
     instance_OpenTheDoor ManageDoorScript;
+    #region Header - Tooltip
     [Header("Kapı İkili bir Kapıysa bu alanı doldurun")]
-    [SerializeField]
     [Tooltip("Eğer bu Kapı bir İkili Kapı ise Sağ Kapı üzerindeki Scripte Sol Kapıyı taşıyın " +
         "ve Sağ Kapı üzerinde değişiklikleri yapın.")]
-    GameObject ManageThisDoor = null;
+    #endregion
+    [SerializeField] GameObject ManageThisDoor = null;
+    public GameObject LockedDoor_UI;
 
     [Header("                                   //--- Kapı Özellikleri ---\\\\")]
-    //---For defining door's current status And if its Locked these Variables will be used---\\
-    public bool DoorIsLocked; //Kapı kilitli mi değil mi?
-    [Tooltip("Örnek Soru : 5 + ? = 8, Cevap = 3")]
-    public string DoorLockedQuestion = "Question"; //Kapıyı açmak için kullanılacak soru.
-    [Tooltip("Sorunun cevabı olması gereken sayıyı buraya yazın. Örnek : 3")]
-    public string DoorLockedPassword = "0"; //Kapının şifresi.
-    instance_btnManager btn_manager;
+    public bool DoorIsLocked;
 
-    //----Door Interaction Texts----\\
-    public TMP_Text Txt_Notification, //Kapı kilitli mi değil mi? 
-                    Txt_Soru; //Kilitli ise canvas açılmadan önce soruyu değiştir. Not : Aynı textBox'ı diğer scriptlerde kullanıyor.
-    [SerializeField]
-    string Str_DoorIsOpen_Dialog = " ", Str_DoorIsClosed_Dialog = " ", Str_DoorIsLocked_Dialog = " ";
-    //Script of Buttons turning this on or off
-    public GameObject LockedDoor_UI;
+    [Tooltip("Örnek Soru : 5 + ? = 8, Cevap = 3")]
+    public string DoorLockedQuestion = "Question";
+
+    [Tooltip("Sorunun cevabı olması gereken sayıyı buraya yazın. Örnek : 3")]
+    public string DoorLockedPassword = "0";
+    
+    [Tooltip("Sahnede bulunan Canvaslar GO içinden bu kısımları doldurun.")]
+    public TMP_Text Txt_Notification,
+                    Txt_Soru;
+
+    [SerializeField] string Str_DoorIsOpen_Dialog = " ", Str_DoorIsClosed_Dialog = " ", Str_DoorIsLocked_Dialog = " ";
 
     //----Door Opening And Closing Animation Variables----\\
     Animator anim;
@@ -40,6 +45,8 @@ public class instance_OpenTheDoor : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        inventory = FindObjectOfType<instance_Player_Inventory>();
+
         if (DoorIsLocked)
         {
             btn_manager = FindObjectOfType<instance_btnManager>();
@@ -61,6 +68,10 @@ public class instance_OpenTheDoor : MonoBehaviour
 
     private void Start()
     {
+        if(DoorLevel != Door_and_Keycard_Level.None && DoorIsLocked)
+            Debug.LogError("Kapı hem kilitli hem de keycard ile açılma özelliğine sahip olamaz.");
+
+
         #region Bu kodlar ikili kapılar için geçerli.
 
         if (ManageThisDoor != null)
@@ -84,51 +95,133 @@ public class instance_OpenTheDoor : MonoBehaviour
     bool TriggerEntered;
     private void Update()
     {
-        if (TriggerEntered && Time.timeScale != 0) //Eğer Player tarafından tetiklendiyse...
+        if (TriggerEntered && Time.timeScale != 0)
         {
-            if (DoorIsLocked) //Kapı kilitliyse...
+            if (DoorIsLocked)
             {
-                if (Input.GetKeyDown(KeyCode.F)) //Kapı kilitliyse ve F basıldıysa.
-                {
-                    LockedDoor_UI.SetActive(!LockedDoor_UI.activeSelf); //Canvas açıksa kapat,Kapalıysa aç.
-                }
-                if (LockedDoor_UI.activeSelf) //Canvas açıksa 
-                {
-                    LP_Controller.Allow_Input = false; //karakterin girişlerini önle.
-                    if (Cursor.lockState == CursorLockMode.Locked) // Cursor Locked ise
-                    {
-                        Cursor.lockState = CursorLockMode.None; //Cursor'ü aktif hale getir
-                        Cursor.visible = true; //Cursor'ü görünür hale getir.
-                    }
-                }
-                else //Canvas kapalıysa
+                if (Input.GetKeyDown(KeyCode.F))
+                    LockedDoor_UI.SetActive(!LockedDoor_UI.activeSelf);
+
+                if (LockedDoor_UI.activeSelf)
+                    LP_Controller.Allow_Input = false;
+                else
                 {
                     btn_manager.TextiTamamenTemizle();
-                    LP_Controller.Allow_Input = true; //Karakterin girişlerine izin ver.
-                    if (Cursor.lockState != CursorLockMode.Locked) //Cursor Locked değilse
-                    {
-                        Cursor.lockState = CursorLockMode.Locked; //Cursor'ü kilitle
-                        Cursor.visible = false; //ve görünmez yap.
-                    }
+                    LP_Controller.Allow_Input = true;
                 }
             }
 
-            if (!DoorIsLocked) //Kapı kilitli "değilse" 
+            else if (!DoorIsLocked && DoorLevel == Door_and_Keycard_Level.None && !IsThisMainDoor)
             {
-                if (Input.GetKeyDown(KeyCode.F)) //ve F basıldıysa.
-                    DoorMovement(); //Kapıyı aç veya kapat
-
-                if (Cursor.lockState != CursorLockMode.Locked) // Cursor Locked değilse
-                {
-                    Cursor.lockState = CursorLockMode.Locked; //Cursor'ü kilitle
-                    Cursor.visible = false; //ve görünmez yap.
-                }
+                if (Input.GetKeyDown(KeyCode.F))
+                    DoorMovement();
+                
+                SetTheInfoTxt();
             }
 
+            else if(IsThisMainDoor || DoorLevel != Door_and_Keycard_Level.None)
+            {
+                ManageDoorLevel(IsThisMainDoor, DoorLevel != Door_and_Keycard_Level.None ? true : false);
+            }
 
         }
     }
-    
+
+
+    private void ManageDoorLevel(bool mainDoor,bool StagedDoor)
+    {
+        bool yesil = false, sari = false, kirmizi = false;
+        if (StagedDoor)
+        {
+            yesil = DoorLevel == Door_and_Keycard_Level.Yesil ? true : false;
+            sari = DoorLevel == Door_and_Keycard_Level.Sari ? true : false;
+            kirmizi = DoorLevel == Door_and_Keycard_Level.Kirmizi ? true : false;
+        }
+
+        if (mainDoor && StagedDoor)
+        {
+            if (yesil)
+                Txt_Notification.text = "Bu kapı için <color=red>Kırmızı</color> ve <color=green>Yeşil</color> anahtara ihtiyacın var.";
+            else if (sari)
+                Txt_Notification.text = "Bu kapı için <color=red>Kırmızı</color> ve <color=yellow>Sarı</color> anahtara ihtiyacın var.";
+            else if (kirmizi)
+                Txt_Notification.text = "Bu kapı için 2 tane <color=red>Kırmızı</color> ihtiyacın var.";
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (inventory.Anahtar_Seviye3 > 0)
+                {
+                    inventory.RemoveKeycard("red");
+                    IsThisMainDoor = false;
+                }
+                else
+                    Txt_Notification.text = "Gereken anahtarlar olmadan bu kapıyı açamazsın.";
+            }
+        }
+
+        else if(!mainDoor && StagedDoor)
+        {
+            if (yesil)
+            {
+                Txt_Notification.text = "Bu kapıyı açmak için <color=green>Yeşil</color> anahtara ihtiyacın var.";
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (inventory.Anahtar_Seviye1 > 0)
+                    {
+                        inventory.RemoveKeycard("green");
+                        DoorLevel = Door_and_Keycard_Level.None;
+                    }
+                    else
+                        Txt_Notification.text = "Gereken <color=green>Yeşil</color> anahtar olmadan bu kapıyı açamazsın.";
+                }
+            }
+
+            else if (sari)
+            {
+                Txt_Notification.text = "Bu kapıyı açmak için <color=yellow>Sarı</color> anahtara ihtiyacın var.";
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (inventory.Anahtar_Seviye2 > 0)
+                    {
+                        inventory.RemoveKeycard("yellow");
+                        DoorLevel = Door_and_Keycard_Level.None;
+                    }
+                    else
+                        Txt_Notification.text = "Gereken <color=yellow>Sarı</color> anahtar olmadan bu kapıyı açamazsın.";
+                }
+            }
+
+            else if (kirmizi)
+            {
+                Txt_Notification.text = "Bu kapıyı açmak için <color=red>Kırmızı</color> anahtara ihtiyacın var.";
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (inventory.Anahtar_Seviye3 > 0)
+                    {
+                        inventory.RemoveKeycard("red");
+                        DoorLevel = Door_and_Keycard_Level.None;
+                    }
+                    else
+                        Txt_Notification.text = "Gereken <color=red>Kırmızı</color> anahtar olmadan bu kapıyı açamazsın.";
+                }
+            }
+        }
+
+        else if (mainDoor && !StagedDoor)
+        {
+            Txt_Notification.text = "Bu kapı için <color=red>Kırmızı</color> ihtiyacın var.";
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (inventory.Anahtar_Seviye3 > 0)
+                {
+                    inventory.RemoveKeycard("red");
+                    IsThisMainDoor = false;
+                }
+            }
+        }
+
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
@@ -140,13 +233,17 @@ public class instance_OpenTheDoor : MonoBehaviour
                 btn_manager.GetTheScriptFromDoor(this.gameObject);
                 Txt_Notification.text = Str_DoorIsLocked_Dialog;
             }
-            //Managing Txt_Notification
-            if (DoorIsOpen && !DoorIsLocked) { Txt_Notification.text = Str_DoorIsOpen_Dialog; }
-            if (!DoorIsOpen && !DoorIsLocked) { Txt_Notification.text = Str_DoorIsClosed_Dialog; }
-            if (Txt_Notification.enabled == false) { Txt_Notification.enabled = true; }
+            SetTheInfoTxt();
         }
     }
 
+    private void SetTheInfoTxt()
+    {
+        //Managing Txt_Notification
+        if (DoorIsOpen && !DoorIsLocked) { Txt_Notification.text = Str_DoorIsOpen_Dialog; }
+        if (!DoorIsOpen && !DoorIsLocked) { Txt_Notification.text = Str_DoorIsClosed_Dialog; }
+        if (Txt_Notification.enabled == false) { Txt_Notification.enabled = true; }
+    }
 
     private void OnTriggerExit(Collider other)
     {
@@ -172,7 +269,7 @@ public class instance_OpenTheDoor : MonoBehaviour
             ManageDoorScript.DoorMovement();
         }
 
-        rnd_AnimSpeed = Random.Range(0.5f, 1.5f);
+        rnd_AnimSpeed = UnityEngine.Random.Range(0.5f, 1.5f);
         anim.SetFloat("rndAnimSpeed", rnd_AnimSpeed);
         if (IsThisLeftSide) //if true leftSide animations will work.
         {

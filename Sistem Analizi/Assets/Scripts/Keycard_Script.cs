@@ -1,11 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public enum KeycardLevel
+public enum Door_and_Keycard_Level
 {
-    Seivye_1,
-    Seivye_2,
-    Seivye_3
+    None,
+    Yesil,
+    Sari,
+    Kirmizi
 }
 
 public class Keycard_Script : MonoBehaviour
@@ -17,7 +18,7 @@ public class Keycard_Script : MonoBehaviour
         "1.Seviye : Yeşil," + newLine +
         "2.Seviye : Sarı," + newLine +
         "3.Seviye : Kırmızı")]
-    public KeycardLevel Keycard;
+    public Door_and_Keycard_Level Keycard;
 
     [HideInInspector]
     public bool Selected_Keycard1 = false,
@@ -30,30 +31,22 @@ public class Keycard_Script : MonoBehaviour
 
     private void SetCurrentCardState()
     {
-        //Keycard'ın default değeri 0 olduğundan cast (int)Keycard VS tarafından gereksiz bulunacaktır.
+        Selected_Keycard1 = false;
+        Selected_Keycard2 = false;
+        Selected_Keycard3 = false;
         //(int)Keycard == (int)KeycardLevel.Seivye_1
-        if (Keycard == KeycardLevel.Seivye_1) //Cast etmeye de gerek yok zaten.
-        {
+        //Keycard'ın default değeri 0 olduğundan cast (int)Keycard VS tarafından gereksiz bulunacaktır.
+        if (Keycard == Door_and_Keycard_Level.Yesil) //Cast etmeye de gerek yok zaten.
             Selected_Keycard1 = true;
-            Selected_Keycard2 = false;
-            Selected_Keycard3 = false;
-        }
-        else if (Keycard == KeycardLevel.Seivye_2)
-        {
-            Selected_Keycard1 = false;
+
+        else if (Keycard == Door_and_Keycard_Level.Sari)
             Selected_Keycard2 = true;
-            Selected_Keycard3 = false;
-        }
-        else if (Keycard == KeycardLevel.Seivye_3)
-        {
-            Selected_Keycard1 = false;
-            Selected_Keycard2 = false;
+
+        else if (Keycard == Door_and_Keycard_Level.Kirmizi)
             Selected_Keycard3 = true;
-        }
+
         else
-        {
-            Debug.LogWarning("Kartlarda bi gariplik var." + this.name);
-        }
+            Debug.LogWarning("Kartlarda bi gariplik var. " + this.name);
     }
 
     private void Awake()
