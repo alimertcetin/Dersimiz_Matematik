@@ -20,9 +20,9 @@ public class instance_Player_Inventory : MonoBehaviour
     public int Anahtar_Seviye1 { get; private set; }
     public int Anahtar_Seviye2 { get; private set; }
     public int Anahtar_Seviye3 { get; private set; }
-    [SerializeField] int YesilKeycard;
-    [SerializeField] int sariKeycard;
-    [SerializeField] int KirmiziKeycard;
+    [SerializeField] int YesilKeycard = 0;
+    [SerializeField] int sariKeycard = 0;
+    [SerializeField] int KirmiziKeycard = 0;
 
     public int inventory_Capacity = 5;
 
@@ -125,12 +125,37 @@ public class instance_Player_Inventory : MonoBehaviour
     }
 
     /// <summary>
+    /// Keycard'ı envanterden kaldırmayı dener. Başarılıysa true döndürür.
+    /// </summary>
+    /// <param name="KeycardColor">green, red, yellow</param>
+    public bool RemoveKeycardSuccess (string KeycardColor)
+    {
+        KeycardColor = KeycardColor.ToLower();
+        if (KeycardColor == "green" && Anahtar_Seviye1 > 0)
+        {
+            DecreaseKeycardAmount(KeycardColor);
+            return true;
+        }
+        else if(KeycardColor == "yellow" && Anahtar_Seviye2 > 0)
+        {
+            DecreaseKeycardAmount(KeycardColor);
+            return true;
+        }
+        else if(KeycardColor == "red" && Anahtar_Seviye3 > 0)
+        {
+            DecreaseKeycardAmount(KeycardColor);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /// <summary>
     /// Removes the keycard from inventory, depends on KeycardColor
     /// </summary>
     /// <param name="KeycardColor"></param>
-    public void RemoveKeycard(string KeycardColor)
+    private void DecreaseKeycardAmount(string KeycardColor)
     {
-        KeycardColor = KeycardColor.ToLower();
         if (KeycardColor == "green")
             Anahtar_Seviye1--;
 

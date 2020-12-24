@@ -61,29 +61,16 @@ public class Keycard_Script : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (Selected_Keycard1)
-            {
                 inventory.CollectedKeycard("green");
 
-                SpawnParicle();
-
-                Destroy(this.gameObject);
-            }
             else if (Selected_Keycard2)
-            {
                 inventory.CollectedKeycard("Yellow");
 
-                SpawnParicle();
-
-                Destroy(this.gameObject);
-            }
             else if (Selected_Keycard3)
-            {
                 inventory.CollectedKeycard("red");
 
-                SpawnParicle();
-
-                Destroy(this.gameObject);
-            }
+            SpawnParicle();
+            Destroy(this.gameObject);
         }
     }
 

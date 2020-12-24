@@ -155,8 +155,8 @@ public class instance_LittlePeopleController : MonoBehaviour
 
         if (BlackBoard_triggered && Input.GetKeyDown(KeyCode.F))
         {
+            Txt_Notification.enabled = false;
             GO_BlackBoard_UI.SetActive(!GO_BlackBoard_UI.activeSelf);
-
             if (GO_BlackBoard_UI.activeSelf)
                 Allow_Input = false;
             else
@@ -219,14 +219,20 @@ public class instance_LittlePeopleController : MonoBehaviour
 
     }
 
+    [SerializeField] TMPro.TMP_Text Txt_Notification = null;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "BlackBoard")
+        {
             BlackBoard_triggered = true;
+            Txt_Notification.text = "Press 'F' to use BlackBoard";
+            Txt_Notification.enabled = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         BlackBoard_triggered = false;
+        Txt_Notification.enabled = false;
     }
 }

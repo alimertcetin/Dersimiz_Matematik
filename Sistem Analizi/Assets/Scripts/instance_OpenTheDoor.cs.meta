@@ -3,7 +3,12 @@ guid: 6ebeac3f9687a2740947ad75661464d3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - ManageThisDoor: {instanceID: 0}
+  - LockedDoor_UI: {instanceID: 0}
+  - UyariUI: {instanceID: 0}
+  - Txt_Notification: {instanceID: 0}
+  - Txt_Soru: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

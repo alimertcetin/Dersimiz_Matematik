@@ -127,8 +127,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorLevel: 1
+  IsThisMainDoor: 0
   ManageThisDoor: {fileID: 6574518356670948417}
   LockedDoor_UI: {fileID: 0}
+  UyariUI: {fileID: 8405411773147299669, guid: 38a44c52743f4b5479f1286383068655, type: 3}
   DoorIsLocked: 0
   DoorLockedQuestion: Question
   DoorLockedPassword: 0
@@ -137,6 +139,7 @@ MonoBehaviour:
   Str_DoorIsOpen_Dialog: Press "F" to close
   Str_DoorIsClosed_Dialog: Press "F" to open
   Str_DoorIsLocked_Dialog: Door is locked! Press "F" to see question!
+  uyariSuresi: 1
   IsThisLeftSide: 0
 --- !u!65 &7015246148922256202
 BoxCollider:
@@ -487,8 +490,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorLevel: 0
+  IsThisMainDoor: 0
   ManageThisDoor: {fileID: 0}
   LockedDoor_UI: {fileID: 0}
+  UyariUI: {fileID: 8405411773147299669, guid: 38a44c52743f4b5479f1286383068655, type: 3}
   DoorIsLocked: 0
   DoorLockedQuestion: Question
   DoorLockedPassword: 0
@@ -497,6 +502,7 @@ MonoBehaviour:
   Str_DoorIsOpen_Dialog: ' '
   Str_DoorIsClosed_Dialog: ' '
   Str_DoorIsLocked_Dialog: ' '
+  uyariSuresi: 1
   IsThisLeftSide: 1
 --- !u!65 &6956295183268911488
 BoxCollider:

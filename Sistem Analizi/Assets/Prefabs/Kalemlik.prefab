@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5587370954380244518}
   - component: {fileID: 6009254703515551420}
   - component: {fileID: 6941328416909118721}
+  - component: {fileID: 7118516680390612977}
   m_Layer: 0
   m_Name: Kalemlik
   m_TagString: Untagged
@@ -86,6 +87,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &7118516680390612977
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4065055023247407055}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4429991, y: 0.44299904, z: 0.57875663}
+  m_Center: {x: -0.000015227455, y: -0.000000025418766, z: 0.2893821}
 --- !u!1001 &1457649532615650083
 PrefabInstance:
   m_ObjectHideFlags: 0

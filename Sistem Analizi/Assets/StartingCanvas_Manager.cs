@@ -12,7 +12,7 @@ public class StartingCanvas_Manager : MonoBehaviour
     string orj_Text;
 
     [SerializeField]
-    GameObject btn_Prev;
+    GameObject btn_Prev = null;
 
     int tracker = 0;
     float timer = 0;

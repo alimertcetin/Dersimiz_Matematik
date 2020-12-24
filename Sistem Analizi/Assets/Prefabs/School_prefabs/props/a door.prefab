@@ -302,9 +302,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DoorLevel: 0
+  IsThisMainDoor: 0
   ManageThisDoor: {fileID: 0}
   LockedDoor_UI: {fileID: 5032969475379411169, guid: 0797ac883f07298468ce655b6d0be576,
     type: 3}
+  UyariUI: {fileID: 8405411773147299669, guid: 38a44c52743f4b5479f1286383068655, type: 3}
   DoorIsLocked: 1
   DoorLockedQuestion: 5 * 5 + ? = 25
   DoorLockedPassword: 0
@@ -313,7 +315,7 @@ MonoBehaviour:
   Str_DoorIsOpen_Dialog: Press "F" to close
   Str_DoorIsClosed_Dialog: Press "F" to open
   Str_DoorIsLocked_Dialog: Door is locked! Press "F" to see question!
-  _renderer: {fileID: 23072247148951056}
+  uyariSuresi: 1
   IsThisLeftSide: 0
 --- !u!65 &2500947159390568095
 BoxCollider:
