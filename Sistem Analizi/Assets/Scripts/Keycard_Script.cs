@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public enum Door_and_Keycard_Level
@@ -12,12 +15,15 @@ public enum Door_and_Keycard_Level
 public class Keycard_Script : MonoBehaviour
 {
     const string newLine = "\r\n";
+
     instance_Player_Inventory inventory;
 
+    #region Tooltip
     [Tooltip("Kartın kaçıncı seviye kart olduğunu belirleyin." + newLine +
         "1.Seviye : Yeşil," + newLine +
         "2.Seviye : Sarı," + newLine +
         "3.Seviye : Kırmızı")]
+    #endregion
     public Door_and_Keycard_Level Keycard;
 
     [HideInInspector]
@@ -28,6 +34,13 @@ public class Keycard_Script : MonoBehaviour
     [Tooltip("Toplandığında oynatılacak particle efektini bu alana ekleyin.")]
     [SerializeField]
     ParticleSystem CollectedParticle = null;
+    bool triggerEntered;
+    [Header("Ayarları burada yaptıktan sonra ObjectBased üzerinden UyariUI eklemeyi unutmayın.")]
+    [Tooltip("Keycard toplandığında ekrana uyarı verilecekse bu alanı işaretleyin.")]
+    [SerializeField] bool UyariVerilecek;
+    [SerializeField] float uyariSuresi = 2f;
+    [SerializeField] string UyariText = "WARNING";
+    ObjectBasedEvents _events;
 
     private void SetCurrentCardState()
     {
@@ -52,13 +65,13 @@ public class Keycard_Script : MonoBehaviour
     private void Awake()
     {
         SetCurrentCardState();
-
+        _events = GetComponent<ObjectBasedEvents>();
         inventory = FindObjectOfType<instance_Player_Inventory>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        if (other.CompareTag("Player"))
+        if (triggerEntered && Input.GetKeyDown(KeyCode.F))
         {
             if (Selected_Keycard1)
                 inventory.CollectedKeycard("green");
@@ -69,9 +82,29 @@ public class Keycard_Script : MonoBehaviour
             else if (Selected_Keycard3)
                 inventory.CollectedKeycard("red");
 
+            if (UyariVerilecek)
+            {
+                if (_events != null) _events.UyariVer(uyariSuresi, UyariText);
+                else Debug.LogWarning("ObjectBasedEvents bulunamadı ancak " + this.name + " ona erişmeye çalışıyor.");
+            }
+
+            if(_events != null) if (_events._EventList != null) _events.HandleEvents();
+
             SpawnParicle();
-            Destroy(this.gameObject);
+            Destroy(this.transform.parent.gameObject);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            triggerEntered = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        triggerEntered = false;
     }
 
     private void SpawnParicle()

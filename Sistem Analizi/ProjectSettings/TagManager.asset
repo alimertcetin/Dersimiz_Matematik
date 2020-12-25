@@ -16,6 +16,7 @@ TagManager:
   - "Say\u0131_9"
   - BlackBoard
   - SayiGenerator
+  - Giris_UI
   layers:
   - Default
   - TransparentFX

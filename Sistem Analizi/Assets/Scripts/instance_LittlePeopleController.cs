@@ -155,10 +155,12 @@ public class instance_LittlePeopleController : MonoBehaviour
 
         if (BlackBoard_triggered && Input.GetKeyDown(KeyCode.F))
         {
-            Txt_Notification.enabled = false;
             GO_BlackBoard_UI.SetActive(!GO_BlackBoard_UI.activeSelf);
             if (GO_BlackBoard_UI.activeSelf)
+            {
+                Txt_Notification.enabled = false;
                 Allow_Input = false;
+            }
             else
                 Allow_Input = true;
         }

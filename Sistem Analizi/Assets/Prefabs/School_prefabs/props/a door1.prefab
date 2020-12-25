@@ -91,11 +91,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1500256853477626559}
   - component: {fileID: 8983851346428727678}
+  - component: {fileID: 3233357562271283679}
   - component: {fileID: 7015246148922256202}
   m_Layer: 0
   m_Name: Right_Door_HOLDER
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18
   m_IsActive: 1
@@ -126,12 +127,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebeac3f9687a2740947ad75661464d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoorLevel: 1
-  IsThisMainDoor: 0
+  DoorIsLocked: 0
   ManageThisDoor: {fileID: 6574518356670948417}
   LockedDoor_UI: {fileID: 0}
   UyariUI: {fileID: 8405411773147299669, guid: 38a44c52743f4b5479f1286383068655, type: 3}
-  DoorIsLocked: 0
   DoorLockedQuestion: Question
   DoorLockedPassword: 0
   Txt_Notification: {fileID: 0}
@@ -139,8 +138,26 @@ MonoBehaviour:
   Str_DoorIsOpen_Dialog: Press "F" to close
   Str_DoorIsClosed_Dialog: Press "F" to open
   Str_DoorIsLocked_Dialog: Door is locked! Press "F" to see question!
-  uyariSuresi: 1
+  AllowToOpen: 0
+  TriggerEntered: 0
   IsThisLeftSide: 0
+--- !u!114 &3233357562271283679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222571177621754924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1deaae8305b0d344a0ad442ad5f0704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yesil: 0
+  sari: 0
+  kirmizi: 0
+  UyariUI: {fileID: 8405411773147299669, guid: 38a44c52743f4b5479f1286383068655, type: 3}
+  txt_Uyari: "Gereken Keycardlar olamadan bu kap\u0131y\u0131 a\xE7amazs\u0131n."
 --- !u!65 &7015246148922256202
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -167,7 +184,7 @@ GameObject:
   m_Layer: 0
   m_Name: Hinge
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18
   m_IsActive: 1
@@ -179,7 +196,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880776701584313600}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.8870438, y: -0.01999998, z: -0.011000156}
+  m_LocalPosition: {x: -0.63500005, y: -0.01999998, z: -0.011000156}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3575895962339517010}
@@ -218,7 +235,7 @@ GameObject:
   m_Layer: 0
   m_Name: Hinge
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18
   m_IsActive: 1
@@ -454,11 +471,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6937869090837156782}
   - component: {fileID: 3567804747370644446}
+  - component: {fileID: 4181868542837246006}
   - component: {fileID: 6956295183268911488}
   m_Layer: 0
   m_Name: Left_Door_HOLDER
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 18
   m_IsActive: 1
@@ -470,7 +488,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6574518356670948417}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5720438, y: 1.2030149, z: 0.043680668}
+  m_LocalPosition: {x: -0.68, y: 1.2030149, z: 0.043680668}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2827152953865771910}
@@ -489,12 +507,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebeac3f9687a2740947ad75661464d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DoorLevel: 0
-  IsThisMainDoor: 0
+  DoorIsLocked: 0
   ManageThisDoor: {fileID: 0}
   LockedDoor_UI: {fileID: 0}
   UyariUI: {fileID: 8405411773147299669, guid: 38a44c52743f4b5479f1286383068655, type: 3}
-  DoorIsLocked: 0
   DoorLockedQuestion: Question
   DoorLockedPassword: 0
   Txt_Notification: {fileID: 0}
@@ -502,8 +518,26 @@ MonoBehaviour:
   Str_DoorIsOpen_Dialog: ' '
   Str_DoorIsClosed_Dialog: ' '
   Str_DoorIsLocked_Dialog: ' '
-  uyariSuresi: 1
+  AllowToOpen: 0
+  TriggerEntered: 0
   IsThisLeftSide: 1
+--- !u!114 &4181868542837246006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6574518356670948417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1deaae8305b0d344a0ad442ad5f0704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yesil: 0
+  sari: 0
+  kirmizi: 0
+  UyariUI: {fileID: 8405411773147299669, guid: 38a44c52743f4b5479f1286383068655, type: 3}
+  txt_Uyari: "Gereken Keycardlar olamadan bu kap\u0131y\u0131 a\xE7amazs\u0131n."
 --- !u!65 &6956295183268911488
 BoxCollider:
   m_ObjectHideFlags: 0
