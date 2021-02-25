@@ -82,10 +82,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: Keycard_Green
       objectReference: {fileID: 0}
+    - target: {fileID: 4643772987627841131, guid: dafcc6ccb8cce6d4e84a88260cc14c03,
+        type: 3}
+      propertyPath: m_TagString
+      value: Keycard
+      objectReference: {fileID: 0}
     - target: {fileID: 4643772988902271324, guid: dafcc6ccb8cce6d4e84a88260cc14c03,
         type: 3}
       propertyPath: m_Name
-      value: Animated_GFX_Script
+      value: Keycard
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643772988902271324, guid: dafcc6ccb8cce6d4e84a88260cc14c03,
+        type: 3}
+      propertyPath: m_TagString
+      value: Keycard
+      objectReference: {fileID: 0}
+    - target: {fileID: 4643772988902271324, guid: dafcc6ccb8cce6d4e84a88260cc14c03,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 7060087243012277494, guid: dafcc6ccb8cce6d4e84a88260cc14c03,
+        type: 3}
+      propertyPath: Keycard
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7060087243012277494, guid: dafcc6ccb8cce6d4e84a88260cc14c03,
+        type: 3}
+      propertyPath: _keycard
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dafcc6ccb8cce6d4e84a88260cc14c03, type: 3}

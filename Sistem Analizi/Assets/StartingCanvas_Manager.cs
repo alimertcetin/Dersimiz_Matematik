@@ -16,28 +16,45 @@ public class StartingCanvas_Manager : MonoBehaviour
 
     int tracker = 0;
     float timer = 0;
+    bool stopped = false;
     private void Update()
     {
         timer += Time.deltaTime;
-        if(timer > 0.5)
+        if(timer > 0.5 && !stopped)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0;
+            stopped = true;
         }
     }
-    
-    private void OnDestroy()
+
+    void Disable_Method()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
     }
 
+    private void OnDisable()
+    {
+        Disable_Method();
+    }
+
+    private void OnDestroy()
+    {
+        Disable_Method();
+    }
+
     private void Start()
     {
         orj_Text = NextEnd_btn_Text.text;
         btn_Prev.SetActive(false);
+        foreach (var item in Textler)
+        {
+            item.SetActive(false);
+        }
+        Textler[0].SetActive(true);
     }
 
     //btn_Next

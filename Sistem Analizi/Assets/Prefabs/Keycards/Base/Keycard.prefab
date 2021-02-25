@@ -45,8 +45,10 @@ GameObject:
   - component: {fileID: 4643772988902271330}
   - component: {fileID: 5115892062612419768}
   - component: {fileID: 7060087243012277494}
+  - component: {fileID: 7553033320396748151}
+  - component: {fileID: 6888765827893129912}
   m_Layer: 0
-  m_Name: Animated_GFX
+  m_Name: Keycard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,9 +159,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d884a8608b8a74786473c5b9133e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Keycard: 1
-  Selected_Keycard1: 0
-  Selected_Keycard2: 0
-  Selected_Keycard3: 0
+  _keycard: 0
   CollectedParticle: {fileID: 7211662553991198926, guid: 555d197ef60ddc74981961e6d3ef6fda,
     type: 3}
+--- !u!114 &7553033320396748151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4643772988902271324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cee2044d98422a3478e50c799dd68b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NotificationCanvas: {fileID: 5663425175943790960, guid: dcf68267571af7e458a3af4575e1f43c,
+    type: 3}
+--- !u!114 &6888765827893129912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4643772988902271324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 202117fb4b83f8a48bdc9d9489696bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 

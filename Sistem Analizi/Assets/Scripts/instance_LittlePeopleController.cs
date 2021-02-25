@@ -1,54 +1,31 @@
 ﻿using UnityEngine;
 using Cinemachine;
-using UnityEngine.SceneManagement;
-
-public class instance_LittlePeopleController : MonoBehaviour
+using System;
+public class instance_LittlePeopleController : MonoBehaviour, ISaveable
 {
-
-    #region /*---------------------- Variables ----------------------*/
-
-
-    //---Awake
     CharacterController charController;
-    public GameObject GO_BlackBoard_UI;
-    instance_Player_Inventory inventory;
-    instance_btnManager btnManager;
-
-    //---ReadInput
     [HideInInspector]
-    public float Vertical, Horizontal;
-    [SerializeField]
-    bool KeyPressed_Vertical, KeyPressed_Horizontal, KeyPressed_Space;
-
-    //instance_OpenTheDoor and instance_btnManager is controlling this variable.
-    public bool Allow_Input = true;
-
-    //---MoveTheChar
-    [SerializeField]
-    float speed = 2, runspeed = 4, gravity = 1f, GravityMultiplier = 1, NeededTimeForStartJump = 0, NeededTimeFor_EndJump = 0;
-    Transform cam; // Main Camera buraya atanacak. Karakteri hareket ettirirken kamera yönünden bağımsız olması için.
-    float targetAngle, Angle, timer = 0, TurnSmoothVelocity, TurnSmoothTime = 0.1f;
-    Vector3 direction, GravityControl, GravityControl2; //GravityControl is in the Update function right now.
-
-    //---JumpMethod
-    bool startcountdown = false, Jump = false;
-
-    //---Camera
-    //Needs Cinemachine library.
+    Transform cam;
+    float targetAngle, Angle, TurnSmoothVelocity, TurnSmoothTime = 0.1f;
     CinemachineFreeLook cameraLook;
     float CameraSpeed_X,
              CameraSpeed_Y;
-
+    public AudioSource mainMusic;
 
     [SerializeField]
-    float Delay = 0, TempDelay;
-    bool startDelay;
-    private bool BlackBoard_triggered;
+    float moveSpeed = 2.1f, runSpeed = 5, jumpForce = 3.2f, gravityScale = .7f, MaxGravityForce = -3;
+    private float storedVerticalAcceleration;
+    float Vertical, Horizontal;
+    bool _allow_Input = true;
+    public bool Allow_Input { get => _allow_Input; set => _allow_Input = value; }
+    bool isGrounded = false;
 
+    Vector3 moveDir;
+    [Range(0f, 1f)]
+    [SerializeField] float TimeScale;
 
-    #endregion
-
-
+    bool LShiftDown, _spaceDown;
+    public bool SpaceDown { get => _spaceDown; set => _spaceDown = value; }
     private void Awake()
     {
         cameraLook = FindObjectOfType<CinemachineFreeLook>();
@@ -62,179 +39,103 @@ public class instance_LittlePeopleController : MonoBehaviour
         }
 
         cam = Camera.main.transform;
-        if(cam == null)
+        if (cam == null)
         {
             Debug.LogError("instance_LittlePeopleController scriptine kamera atanmamış!");
             Time.timeScale = 0;
         }
 
-        inventory = FindObjectOfType<instance_Player_Inventory>();
         charController = GetComponent<CharacterController>();
-        btnManager = FindObjectOfType<instance_btnManager>();
-        TempDelay = Delay;
+        TimeScale = Time.timeScale;
     }
 
-
-    void ReadInput()
+    void Update()
     {
-        //Yatay eksendeki girdiler
+        isGrounded = charController.isGrounded;
+        Time.timeScale = TimeScale;
+        if (Input.GetKeyDown(KeyCode.M)) mainMusic.enabled = mainMusic.enabled ? false : true;
         Horizontal = Input.GetAxisRaw("Horizontal");
-        //Dikey eksendeki girdiler.
         Vertical = Input.GetAxisRaw("Vertical");
-        
+        LShiftDown = Input.GetKey(KeyCode.LeftShift);
+    }
+    private void FixedUpdate()
+    {
+        Movement();
+    }
 
-        //CharacterController isGrounded true ise yani karakter yerdeyse space girdisini oku.
-        if (charController.isGrounded)
+    private void Movement()
+    {
+        if (_allow_Input)
         {
-            KeyPressed_Space = Input.GetKeyDown(KeyCode.Space);
-        }
+            moveDir = new Vector3(Horizontal, 0f, Vertical);
+            //Karakterin bakması gereken yeri belirle.
+            targetAngle = Mathf.Atan2(Horizontal, Vertical) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            //Karakteri yumuşak bir şekilde y ekseninde döndür
+            Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref TurnSmoothVelocity, TurnSmoothTime);
+            if (moveDir.magnitude > 1f) moveDir.Normalize();
+            if (Horizontal != 0 || Vertical != 0)
+            {
+                transform.rotation = Quaternion.Euler(0f, Angle, 0f);
+                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                charController.Move(moveDir * Time.deltaTime);
+            }
+            if (LShiftDown)
+                moveDir *= runSpeed;
+            else
+                moveDir *= moveSpeed;
 
-        //Works same as the other if else statement.
-        //Eğer Horizontal 0'a eşit değilse KeyPressed_Horizontal'ı true yap. Eşitse false döndür.
-        KeyPressed_Horizontal = Horizontal != 0 ? true : false;
-
-        //Eğer Vertical 0'a eşit değilse KeyPressed_Vertical'ı true yap. Eşitse false döndür.
-        if (Vertical != 0)
-        {
-            KeyPressed_Vertical = true;
-        }
-        else
-            KeyPressed_Vertical = false;
-
-        //Eğer girişe izin verilmezse karakter herhangi bir giriş verisi almayacak.
-        //Fakat basılan tuşlar hala okunuyor olacak.
-        if (Allow_Input)
-        {
-            MoveTheChar(Horizontal, Vertical);
+            if (charController.isGrounded && _spaceDown)
+                moveDir.y = jumpForce;
+            else
+            {
+                moveDir.y = storedVerticalAcceleration;
+                moveDir.y += Physics.gravity.y * gravityScale * Time.deltaTime;
+            }
+            if (moveDir.y < MaxGravityForce)
+                moveDir.y = MaxGravityForce;
 
             cameraLook.m_YAxis.m_MaxSpeed = CameraSpeed_Y;
             cameraLook.m_XAxis.m_MaxSpeed = CameraSpeed_X;
-            //cameraLook.m_YAxis.m_InputAxisName = "Mouse Y";
-            //cameraLook.m_XAxis.m_InputAxisName = "Mouse X";
+
+            charController.Move(moveDir * Time.deltaTime);
+            storedVerticalAcceleration = moveDir.y;
         }
         else
         {
             cameraLook.m_YAxis.m_MaxSpeed = 0;
             cameraLook.m_XAxis.m_MaxSpeed = 0;
-            //cameraLook.m_YAxis.m_InputAxisName = "";
-            //cameraLook.m_XAxis.m_InputAxisName = "";
         }
-
     }
     
-    public AudioSource mainMusic;
-    private void Update()
+
+    public object CaptureState()
     {
-        if (Input.GetKeyDown(KeyCode.M)) { mainMusic.enabled = mainMusic.enabled ? false : true; }
-
-        ReadInput();
-
-        if (KeyPressed_Space)
-            startcountdown = true;
-
-        if (startcountdown)
+        var x = this.gameObject.transform.position.x;
+        var y = this.gameObject.transform.position.y;
+        var z = this.gameObject.transform.position.z;
+        return new SaveData
         {
-            timer += Time.deltaTime;
-            if (timer >= NeededTimeForStartJump)
-            {
-                timer = 0;
-                Jump = true;
-                startcountdown = false;
-            }
-        }
-
-        if (startDelay)
-        {
-            TempDelay -= Time.deltaTime;
-            if (TempDelay <= 0)
-            {
-                TempDelay = Delay;
-                startDelay = false;
-            }
-        }
-
-        if (BlackBoard_triggered && Input.GetKeyDown(KeyCode.F))
-        {
-            GO_BlackBoard_UI.SetActive(!GO_BlackBoard_UI.activeSelf);
-            if (GO_BlackBoard_UI.activeSelf)
-            {
-                Txt_Notification.enabled = false;
-                Allow_Input = false;
-            }
-            else
-                Allow_Input = true;
-        }
+            positionX = x,
+            positionY = y,
+            positionZ = z,
+        };
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    public void RestoreState(object state)
     {
-        if (Jump)
-        {
-            JumpMethod();
-        }
-        if(!startDelay)
-        {
-            //Karaktere yerçekimi ekle
-            GravityControl = new Vector3(0, direction.y - gravity * Time.deltaTime, 0);
-            charController.Move(GravityControl);
-        }
-
+        var saveData = (SaveData)state;
+        Vector3 position;
+        position.x = saveData.positionX;
+        position.y = saveData.positionY;
+        position.z = saveData.positionZ;
+        this.gameObject.transform.position = position;
     }
 
-    //The function that called by ReadInput and also takes the variables from ReadInput function
-    void MoveTheChar(float _horizontal, float _vertical)
+    [System.Serializable]
+    struct SaveData
     {
-        //Karakterin bakması gereken yeri belirle.
-        targetAngle = Mathf.Atan2(_horizontal, _vertical) * Mathf.Rad2Deg + cam.eulerAngles.y;
-        //Karakteri yumuşak bir şekilde y ekseninde döndür
-        Angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref TurnSmoothVelocity, TurnSmoothTime);
-        direction = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-
-        if (KeyPressed_Horizontal || KeyPressed_Vertical)
-        {
-            transform.rotation = Quaternion.Euler(0f, Angle, 0f);
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                charController.Move(direction.normalized * runspeed * Time.deltaTime);
-            }
-            else
-                charController.Move(direction.normalized * speed * Time.deltaTime);
-        }
-
-    }
-    /* MoveTheChar tarafından çağırılan fonksiyon. */
-    void JumpMethod()
-    {
-        //Eğer Space basıldıysa yerçekimi tersine çevir
-        //böylece karakter zıplıyormuş gibi görünecek.
-        GravityControl2 = new Vector3(0, direction.y + (gravity * GravityMultiplier) * Time.deltaTime, 0);
-        charController.Move(GravityControl2);
-        timer += Time.deltaTime;
-        if (timer >= NeededTimeFor_EndJump)
-        {
-            timer = 0;
-            startDelay = true;
-            Jump = false;
-        }
-
-    }
-
-    [SerializeField] TMPro.TMP_Text Txt_Notification = null;
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "BlackBoard")
-        {
-            BlackBoard_triggered = true;
-            Txt_Notification.text = "Press 'F' to use BlackBoard";
-            Txt_Notification.enabled = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        BlackBoard_triggered = false;
-        Txt_Notification.enabled = false;
+        public float positionX;
+        public float positionY;
+        public float positionZ;
     }
 }

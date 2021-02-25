@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 842395470527529986, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
+        type: 3}
+      propertyPath: _keycard
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3043099825838892700, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,11 +72,32 @@ PrefabInstance:
       propertyPath: m_Name
       value: Keycard_Small_Red
       objectReference: {fileID: 0}
+    - target: {fileID: 3043099825838892703, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
+        type: 3}
+      propertyPath: m_TagString
+      value: Keycard
+      objectReference: {fileID: 0}
     - target: {fileID: 3043099826978843031, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 462f46f23b1a1e147b0388297cd1b855, type: 2}
+    - target: {fileID: 3043099826978843048, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
+        type: 3}
+      propertyPath: m_TagString
+      value: Keycard
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043099826978843048, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 6318301346658696400, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
+        type: 3}
+      propertyPath: m_TagString
+      value: Keycard
+      objectReference: {fileID: 0}
     - target: {fileID: 6329224870659495363, guid: 500be8b2e4c9f2b4094f40c48ed93b04,
         type: 3}
       propertyPath: _EventList.Array.size

@@ -2,69 +2,67 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectBasedEvents : MonoBehaviour
+[RequireComponent(typeof(SaveableEntity))]
+public class ObjectBasedEvents : MonoBehaviour, ISaveable
 {
     public enum Event_Enum { None, Enable, Disable, ColliderTrigger_True, ColliderTrigger_False, DestroyThisAfterEvents }
 
     [Tooltip("Triggerlandığında tanımlanan eventleri yerine getirir ve uyarı verilecek işaretliyse uyarı verir.")]
-    [SerializeField] bool UseTriggerEnter;
+    [SerializeField] bool _useTriggerEnter = false;
     [Tooltip("İliştirilen gameobject bir trigger collider'a sahip olmalı ve bu collider character tarafından" +
         " triggerlanmış ve o süre içerisinde F basılmış olmalıdır.")]
-    [SerializeField] bool PerformWhen_F_Pressed;
+    [SerializeField] bool _performWhen_F_Pressed = false;
     [Header("Create an event. If you will call DestroyThisAfterEvents assign it to the last index.")]
-    public List<Event_Enum> _EventList;
+    [SerializeField] List<Event_Enum> _eventList = null;
     [Header("Add objects that will get effected by the event.")]
-    [SerializeField] List<GameObject> Enable_Objects;
-    [SerializeField] List<GameObject> Disable_Objects;
-    [SerializeField] List<GameObject> Collider_Trigger_Objects;
-    [Header("Eğer bu script bir Keycard'ın üzerindeyse bu alanı Keycard üzerinden doldurun.")]
-    [SerializeField] bool UyariVerilecek;
+    [SerializeField] List<GameObject> Enable_Objects = null;
+    [SerializeField] List<GameObject> Disable_Objects = null;
+    [SerializeField] List<GameObject> Collider_Trigger_Objects = null;
+    [Header("Not : Destroy seçildiği zaman nesne yok edilmez. Deaktif hale getirilir.")]
+    [SerializeField] bool _uyariVerilecek = false;
+    public bool PerformWhen_F_Pressed { get => _performWhen_F_Pressed; set => _performWhen_F_Pressed = value; }
+    public bool UseTriggerEnter { get => _useTriggerEnter; set => _useTriggerEnter = value; }
+    public List<Event_Enum> EventList { get => _eventList; }
+
+    bool TriggerEntered;
     [SerializeField] float uyariSuresi = 2f;
     [SerializeField] string UyariText = "WARNING";
 
-    bool TriggerEntered;
-
     private void Update()
     {
-        if (TriggerEntered && UseTriggerEnter)
+        if (TriggerEntered && _useTriggerEnter)
         {
-            if (UyariVerilecek) { UyariVer(uyariSuresi, UyariText); }
-            if (_EventList != null) HandleEvents();
+            if (_uyariVerilecek) { UyariVer(uyariSuresi, UyariText); }
+            if (_eventList != null) HandleEvents();
         }
-        if (TriggerEntered && PerformWhen_F_Pressed && Input.GetKeyDown(KeyCode.F))
+        else if (TriggerEntered && _performWhen_F_Pressed && Input.GetKeyDown(KeyCode.F))
         {
-            if (UyariVerilecek) { UyariVer(uyariSuresi, UyariText); }
-            if (_EventList != null) HandleEvents();
+            if (_uyariVerilecek) { UyariVer(uyariSuresi, UyariText); }
+            if (_eventList != null) HandleEvents();
         }
     }
+
+    private void OnDisable() => TriggerEntered = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            TriggerEntered = true;
-        }
+        if (other.CompareTag("Player")) TriggerEntered = true;
     }
     private void OnTriggerExit(Collider other)
     {
-        TriggerEntered = false;
-    }
-
-    private void OnDestroy()
-    {
-        Destroy(nesne,uyariSuresi);
+        if (other.CompareTag("Player")) TriggerEntered = false;
     }
 
     public void HandleEvents()
     {
-        foreach (var item in _EventList)
+        foreach (var item in _eventList)
         {
             if (item == Event_Enum.Enable) { EnableObjects(); }
             else if (item == Event_Enum.Disable) { DisableObjects(); }
             else if (item == Event_Enum.ColliderTrigger_True) { ColliderIsTrigger(true); }
             else if (item == Event_Enum.ColliderTrigger_False) { ColliderIsTrigger(false); }
 
-            else if (item == Event_Enum.DestroyThisAfterEvents) { Destroy(this.gameObject); }
+            else if (item == Event_Enum.DestroyThisAfterEvents) { this.gameObject.SetActive(false); }
         }
     }
 
@@ -98,48 +96,39 @@ public class ObjectBasedEvents : MonoBehaviour
         }
     }
 
-    #region POOLING SYSTEM FOR WARNING SCREEN
-    [SerializeField] GameObject UyariUI;
-    GameObject nesne;
-    Queue<GameObject> UyariNesneleri = new Queue<GameObject>();
-    bool CoroutineWorking = false;
-
+    [SerializeField] GameObject UyariUI = null;
     public void UyariVer(float second, string text)
     {
-        if (CoroutineWorking == false)
+        Uyari_Ekrani_Management tat = UyariUI.GetComponent<Uyari_Ekrani_Management>();
+        tat.UyariVer(second, text);
+    }
+
+    public object CaptureState()
+    {
+        bool ColTriggerState = false;
+        TryGetComponent<Collider>(out Collider col);
+        if (col != null)
+            ColTriggerState = col.isTrigger;
+        return new SaveData
         {
-            nesne = HavuzdanAl();
-            TMPro.TMP_Text txt = nesne.GetComponentInChildren<TMPro.TMP_Text>();
-            txt.text = text;
-            StartCoroutine(UyariVerCoroutine(nesne, second));
-        }
-    }
-    IEnumerator UyariVerCoroutine(GameObject nesne, float _second)
-    {
-        CoroutineWorking = true;
-        nesne.SetActive(true);
-        yield return new WaitForSeconds(_second);
-        nesne.SetActive(false);
-        UyariNesneleri.Enqueue(nesne);
-        CoroutineWorking = false;
+            _isActive = gameObject.activeSelf,
+            _isTriggered = ColTriggerState,
+        };
     }
 
-    private GameObject HavuzdanAl()
+    public void RestoreState(object state)
     {
-        if (UyariNesneleri.Count == 0)
-            HavuzaEkle(1);
-        return UyariNesneleri.Dequeue();
+        TryGetComponent<Collider>(out Collider col);
+        var saveData = (SaveData)state;
+        gameObject.SetActive(saveData._isActive);
+        if (col != null)
+            col.isTrigger = saveData._isTriggered;
     }
 
-    private void HavuzaEkle(int v)
+    [System.Serializable]
+    struct SaveData
     {
-        for (int i = 0; i < v; i++)
-        {
-            var Uyari = Instantiate(UyariUI);
-            Uyari.SetActive(false);
-            UyariNesneleri.Enqueue(Uyari);
-        }
+        public bool _isActive;
+        public bool _isTriggered;
     }
-
-    #endregion
 }

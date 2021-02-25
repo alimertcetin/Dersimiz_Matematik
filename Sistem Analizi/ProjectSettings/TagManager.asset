@@ -4,19 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - "Say\u0131_0"
-  - "Say\u0131_1"
-  - "Say\u0131_2"
-  - "Say\u0131_3"
-  - "Say\u0131_4"
-  - "Say\u0131_5"
-  - "Say\u0131_6"
-  - "Say\u0131_7"
-  - "Say\u0131_8"
-  - "Say\u0131_9"
   - BlackBoard
   - SayiGenerator
   - Giris_UI
+  - Door
+  - Keycard
+  - LockedDoor_UI
   layers:
   - Default
   - TransparentFX

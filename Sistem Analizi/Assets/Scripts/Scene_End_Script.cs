@@ -3,20 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class Scene_End_Script : MonoBehaviour
 {
-    instance_OpenTheDoor openTheDoor;
+    Door_Animation _doorAnimation;
     bool TriggerEnter;
 
     void Start()
     {
-        openTheDoor = GetComponent<instance_OpenTheDoor>();
+        _doorAnimation = GetComponent<Door_Animation>();
     }
 
     void Update()
     {
-        if(TriggerEnter && !openTheDoor.DoorIsLocked && openTheDoor.AllowToOpen && Input.GetKey(KeyCode.F))
+        if (TriggerEnter && _doorAnimation.DoorIsOpen)
         {
             Scene s = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(s.buildIndex + 1);
             if (s.buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
             {
                 SceneManager.LoadSceneAsync(s.buildIndex + 1);

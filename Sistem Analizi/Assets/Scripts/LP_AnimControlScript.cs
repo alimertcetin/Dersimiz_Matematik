@@ -39,16 +39,15 @@ public class LP_AnimControlScript : MonoBehaviour
     }
     bool Walk;
     bool Run;
-    float Horizontal,
-    Vertical;
 
     void ReadInput()
     {
-        Horizontal = _LittlePeopleController.Horizontal;
-        Vertical = _LittlePeopleController.Vertical;
-
-        if (Horizontal > 0.01f || Horizontal < -0.01f || Vertical > 0.01f || Vertical < -0.01f)
+        if (Input.GetAxisRaw("Horizontal") > 0.01f || Input.GetAxisRaw("Horizontal") < -0.01f ||
+            Input.GetAxisRaw("Vertical") > 0.01f || Input.GetAxisRaw("Vertical") < -0.01f &&
+            _LittlePeopleController.Allow_Input)
+        {
             Walk = true;
+        }
         else Walk = false;
 
         if (Walk && Input.GetKey(KeyCode.LeftShift))
@@ -66,13 +65,23 @@ public class LP_AnimControlScript : MonoBehaviour
     {
         anim.SetBool("Walk", Walk);
         anim.SetBool("Run", Run);
-        anim.SetBool("Jump", Input.GetKeyDown(KeyCode.Space));
+        if (Input.GetKeyDown(KeyCode.Space))
+            anim.SetBool("Jump", true);
+        else
+            anim.SetBool("Jump", false);
         if (!_LittlePeopleController.Allow_Input)
         {
             anim.SetBool("Walk", false);
             anim.SetBool("Run", false);
             anim.SetBool("Jump", false);
         }
+    }
+
+    public IEnumerator AddJumpForce()
+    {
+        _LittlePeopleController.SpaceDown = true;
+        yield return new WaitForFixedUpdate();
+        _LittlePeopleController.SpaceDown = false;
     }
 
     // Update is called once per frame

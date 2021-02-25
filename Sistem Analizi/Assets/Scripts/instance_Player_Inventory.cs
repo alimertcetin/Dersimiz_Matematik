@@ -2,223 +2,289 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public class instance_Player_Inventory : MonoBehaviour
+[RequireComponent(typeof(SaveableEntity))]
+public class instance_Player_Inventory : MonoBehaviour,ISaveable
 {
     instance_TxtManager txt_Manager_Info;
-    public int Sayi_0 = 0,
-        Sayi_1 = 0,
-        Sayi_2 = 0,
-        Sayi_3 = 0,
-        Sayi_4 = 0,
-        Sayi_5 = 0,
-        Sayi_6 = 0,
-        Sayi_7 = 0,
-        Sayi_8 = 0,
-        Sayi_9 = 0;
-    public int Anahtar_Seviye1 { get; private set; }
-    public int Anahtar_Seviye2 { get; private set; }
-    public int Anahtar_Seviye3 { get; private set; }
+    [SerializeField] int rakam_0 = 0, rakam_1 = 0, rakam_2 = 0, rakam_3 = 0, rakam_4 = 0,
+                         rakam_5 = 0, rakam_6 = 0, rakam_7 = 0, rakam_8 = 0, rakam_9 = 0;
+
+    public int Rakam_0 { get => rakam_0; private set => rakam_0 = value; }
+    public int Rakam_1 { get => rakam_1; private set => rakam_1 = value; }
+    public int Rakam_2 { get => rakam_2; private set => rakam_2 = value; }
+    public int Rakam_3 { get => rakam_3; private set => rakam_3 = value; }
+    public int Rakam_4 { get => rakam_4; private set => rakam_4 = value; }
+    public int Rakam_5 { get => rakam_5; private set => rakam_5 = value; }
+    public int Rakam_6 { get => rakam_6; private set => rakam_6 = value; }
+    public int Rakam_7 { get => rakam_7; private set => rakam_7 = value; }
+    public int Rakam_8 { get => rakam_8; private set => rakam_8 = value; }
+    public int Rakam_9 { get => rakam_9; private set => rakam_9 = value; }
+
+    public int _yesilKeycard { get; private set; }
+    public int _sariKeycard { get; private set; }
+    public int _kirmiziKeycard { get; private set; }
+
     [SerializeField] int YesilKeycard = 0;
     [SerializeField] int sariKeycard = 0;
     [SerializeField] int KirmiziKeycard = 0;
-
-    public int inventory_Capacity = 5;
+    [SerializeField] private int _inventory_Capacity = 5;
+    public int Inventory_Capacity { get => _inventory_Capacity; private set => _inventory_Capacity = value; }
 
     private void Awake()
     {
-        Anahtar_Seviye1 = YesilKeycard;
-        Anahtar_Seviye2 = sariKeycard;
-        Anahtar_Seviye3 = KirmiziKeycard;
+        _yesilKeycard = YesilKeycard;
+        _sariKeycard = sariKeycard;
+        _kirmiziKeycard = KirmiziKeycard;
         txt_Manager_Info = FindObjectOfType<instance_TxtManager>();
     }
 
-
-    //Sayilar_ReadInfo tarafından kullanılıyor.
     /// <summary>
-    /// Envanter kapasitesini değiştirir.
+    /// Keycard'ı envantere eklemeyi dener. Başarılıysa true döndürür.
     /// </summary>
-    /// <param name="_tagOfNumber">Envanterden azaltılacak veya Envantere eklenecek sayıyı bulur.</param>
-    /// <param name="CoveredArea">Değer pozitifse kapasiteyi azaltır ve sayıyı envantere ekler.
-    /// Negatifse kapasiteyi arttırır ve sayıyı envanterden çıkartır.</param>
-    public void CapacityHasChanged(string _tagOfNumber, int CoveredArea)
-    {
-        //Envanter kapasitesini değiştir.
-        inventory_Capacity -= CoveredArea;
-        //Toplanan sayının miktarını değiştir.
-        CollectedNumber(_tagOfNumber, CoveredArea);
-        txt_Manager_Info.SetTheChildTexts();
-    }
-
-    //CapacityHasChanged'e gönderilen değerlere göre sayıyı bul ve kapladığı alan kadar miktarını arttır.
-    public void CollectedNumber(string tagOfNumber, int amount)
-    {
-        //Tagler Türkçe karakter kullanarak verildiği için string ifadelerde "ı" kullanıldı.
-        //Sayi_0
-        if (tagOfNumber == "Sayı_0")
-        {
-            Sayi_0 += amount;
-        }
-        //Sayi_1
-        if (tagOfNumber == "Sayı_1")
-        {
-            Sayi_1 += amount;
-        }
-        //Sayi_2
-        if (tagOfNumber == "Sayı_2")
-        {
-            Sayi_2 += amount;
-        }
-        //Sayi_3
-        if (tagOfNumber == "Sayı_3")
-        {
-            Sayi_3 += amount;
-        }
-        //Sayi_4
-        if (tagOfNumber == "Sayı_4")
-        {
-            Sayi_4 += amount;
-        }
-        //Sayi_5
-        if (tagOfNumber == "Sayı_5")
-        {
-            Sayi_5 += amount;
-        }
-        //Sayi_6
-        if (tagOfNumber == "Sayı_6")
-        {
-            Sayi_6 += amount;
-        }
-        //Sayi_7
-        if (tagOfNumber == "Sayı_7")
-        {
-            Sayi_7 += amount;
-        }
-        //Sayi_8
-        if (tagOfNumber == "Sayı_8")
-        {
-            Sayi_8 += amount;
-        }
-        //Sayi_9
-        if (tagOfNumber == "Sayı_9")
-        {
-            Sayi_9 += amount;
-        }
-    }
-
-    public void CollectedKeycard(string KeycardColor)
+    /// <param name="KeycardColor">green, red, yellow</param>
+    public bool KeycardEkle_Success(string KeycardColor)
     {
         KeycardColor = KeycardColor.ToLower();
+
         if (KeycardColor == "green")
-            Anahtar_Seviye1++;
-
+        {
+            IncreaseKeycardAmount(KeycardColor); return true;
+        }
         else if (KeycardColor == "yellow")
-            Anahtar_Seviye2++;
-
+        {
+            IncreaseKeycardAmount(KeycardColor); return true;
+        }
         else if (KeycardColor == "red")
-            Anahtar_Seviye3++;
-        else
-            Debug.LogWarning("Keycard bulunamadı. ---->" + this.name);
-
-        txt_Manager_Info.SetKeycardChildTexts();
+        {
+            IncreaseKeycardAmount(KeycardColor); return true;
+        }
+        else return false;
     }
-
     /// <summary>
     /// Keycard'ı envanterden kaldırmayı dener. Başarılıysa true döndürür.
     /// </summary>
     /// <param name="KeycardColor">green, red, yellow</param>
-    public bool RemoveKeycardSuccess (string KeycardColor)
+    public bool KeycardCikar_Success(string KeycardColor)
     {
         KeycardColor = KeycardColor.ToLower();
-        if (KeycardColor == "green" && Anahtar_Seviye1 > 0)
-        {
-            DecreaseKeycardAmount(KeycardColor);
-            return true;
-        }
-        else if(KeycardColor == "yellow" && Anahtar_Seviye2 > 0)
-        {
-            DecreaseKeycardAmount(KeycardColor);
-            return true;
-        }
-        else if(KeycardColor == "red" && Anahtar_Seviye3 > 0)
-        {
-            DecreaseKeycardAmount(KeycardColor);
-            return true;
-        }
-        else
-            return false;
-    }
 
-    /// <summary>
-    /// Removes the keycard from inventory, depends on KeycardColor
-    /// </summary>
-    /// <param name="KeycardColor"></param>
+        if (KeycardColor == "green" && _yesilKeycard > 0)
+        {
+            DecreaseKeycardAmount(KeycardColor); return true;
+        }
+        else if (KeycardColor == "yellow" && _sariKeycard > 0)
+        {
+            DecreaseKeycardAmount(KeycardColor); return true;
+        }
+        else if (KeycardColor == "red" && _kirmiziKeycard > 0)
+        {
+            DecreaseKeycardAmount(KeycardColor); return true;
+        }
+        else return false;
+    }
+    
     private void DecreaseKeycardAmount(string KeycardColor)
     {
-        if (KeycardColor == "green")
-            Anahtar_Seviye1--;
+        if (KeycardColor == "green") _yesilKeycard--;
+        else if (KeycardColor == "yellow") _sariKeycard--;
+        else if (KeycardColor == "red") _kirmiziKeycard--;
 
-        else if (KeycardColor == "yellow")
-            Anahtar_Seviye2--;
-
-        else if (KeycardColor == "red")
-            Anahtar_Seviye3--;
-        else
-            Debug.LogWarning("Keycard bulunamadı. ---->" + this.name);
+        txt_Manager_Info.SetKeycardChildTexts();
+    }
+    private void IncreaseKeycardAmount(string KeycardColor)
+    {
+        if (KeycardColor == "green") _yesilKeycard++;
+        else if (KeycardColor == "yellow") _sariKeycard++;
+        else if (KeycardColor == "red") _kirmiziKeycard++;
 
         txt_Manager_Info.SetKeycardChildTexts();
     }
 
     /// <summary>
-    /// Returns the tag of integer number.
+    /// İşlem başarılıysa true döndürür.
     /// </summary>
-    /// <param name="_receviedNumber">Gönderilecek rakam.</param>
-    /// <returns>Tag of number.</returns>
-    public string FindTheTag(int _receviedNumber)
+    public bool Sayi_Ekle(int _eklenecekSayi, int _eklenecekMiktar)
     {
-        if (_receviedNumber == 0)
+        if (Inventory_Capacity > 0 && Sayi_EnvantereEkle_Success(_eklenecekSayi, _eklenecekMiktar))
         {
-            return "Sayı_0";
+            Inventory_Capacity -= _eklenecekMiktar;
+            txt_Manager_Info.SetTheChildTexts();
+            return true;
         }
-        else if (_receviedNumber == 1)
+        else return false;
+    }
+    /// <summary>
+    /// İşlem başarılıysa true döndürür.
+    /// </summary>
+    public bool Sayi_Cikar(int _cikarilacakSayi, int _cikarilacakMiktar)
+    {
+        if (Sayi_EnvanterdenCikar_Success(_cikarilacakSayi, _cikarilacakMiktar))
         {
-            return "Sayı_1";
+            Inventory_Capacity += _cikarilacakMiktar;
+            txt_Manager_Info.SetTheChildTexts();
+            return true;
         }
-        else if (_receviedNumber == 2)
-        {
-            return "Sayı_2";
-        }
-        else if (_receviedNumber == 3)
-        {
-            return "Sayı_3";
-        }
-        else if (_receviedNumber == 4)
-        {
-            return "Sayı_4";
-        }
-        else if (_receviedNumber == 5)
-        {
-            return "Sayı_5";
-        }
-        else if (_receviedNumber == 6)
-        {
-            return "Sayı_6";
-        }
-        else if (_receviedNumber == 7)
-        {
-            return "Sayı_7";
-        }
-        else if (_receviedNumber == 8)
-        {
-            return "Sayı_8";
-        }
-        else if (_receviedNumber == 9)
-        {
-            return "Sayı_9";
-        }
-        else
-            return null;
+        else return false;
     }
 
+    bool Sayi_EnvantereEkle_Success(int Sayi, int Amount)
+    {
+        if (Sayi == 0)
+        {
+            Rakam_0 += Amount; return true;
+        }
+        else if (Sayi == 1)
+        {
+            Rakam_1 += Amount; return true;
+        }
+        else if (Sayi == 2)
+        {
+            Rakam_2 += Amount; return true;
+        }
+        else if (Sayi == 3)
+        {
+            Rakam_3 += Amount; return true;
+        }
+        else if (Sayi == 4)
+        {
+            Rakam_4 += Amount; return true;
+        }
+        else if (Sayi == 5)
+        {
+            Rakam_5 += Amount; return true;
+        }
+        else if (Sayi == 6)
+        {
+            Rakam_6 += Amount; return true;
+        }
+        else if (Sayi == 7)
+        {
+            Rakam_7 += Amount; return true;
+        }
+        else if (Sayi == 8)
+        {
+            Rakam_8 += Amount; return true;
+        }
+        else if (Sayi == 9)
+        {
+            Rakam_9 += Amount; return true;
+        }
+        else return false;
+    }
+    bool Sayi_EnvanterdenCikar_Success(int Sayi, int Amount)
+    {
+        if (Sayi == 0)
+        {
+            Rakam_0 -= Amount; return true;
+        }
+        else if (Sayi == 1)
+        {
+            Rakam_1 -= Amount; return true;
+        }
+        else if (Sayi == 2)
+        {
+            Rakam_2 -= Amount; return true;
+        }
+        else if (Sayi == 3)
+        {
+            Rakam_3 -= Amount; return true;
+        }
+        else if (Sayi == 4)
+        {
+            Rakam_4 -= Amount; return true;
+        }
+        else if (Sayi == 5)
+        {
+            Rakam_5 -= Amount; return true;
+        }
+        else if (Sayi == 6)
+        {
+            Rakam_6 -= Amount; return true;
+        }
+        else if (Sayi == 7)
+        {
+            Rakam_7 -= Amount; return true;
+        }
+        else if (Sayi == 8)
+        {
+            Rakam_8 -= Amount; return true;
+        }
+        else if (Sayi == 9)
+        {
+            Rakam_9 -= Amount; return true;
+        }
+        else return false;
+    }
+
+    /// <summary>
+    /// Gonderilen değerdeki sayı envanterde varsa true döndürür.
+    /// </summary>
+    public bool InventoryControl_Sayi(int value)
+    {
+        if (value == 0 && Rakam_0 > 0) return true;
+        else if (value == 1 && Rakam_1 > 0) return true;
+        else if (value == 2 && Rakam_2 > 0) return true;
+        else if (value == 3 && Rakam_3 > 0) return true;
+        else if (value == 4 && Rakam_4 > 0) return true;
+        else if (value == 5 && Rakam_5 > 0) return true;
+        else if (value == 6 && Rakam_6 > 0) return true;
+        else if (value == 7 && Rakam_7 > 0) return true;
+        else if (value == 8 && Rakam_8 > 0) return true;
+        else if (value == 9 && Rakam_9 > 0) return true;
+        else return false;
+    }
+    
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            _rakam_0 = Rakam_0,
+            _rakam_1 = Rakam_1,
+            _rakam_2 = Rakam_2,
+            _rakam_3 = Rakam_3,
+            _rakam_4 = Rakam_4,
+            _rakam_5 = Rakam_5,
+            _rakam_6 = Rakam_6,
+            _rakam_7 = Rakam_7,
+            _rakam_8 = Rakam_8,
+            _rakam_9 = Rakam_9,
+            _yesilKeycard = _yesilKeycard,
+            _sariKeycard = _sariKeycard,
+            _kirmiziKeycard = _kirmiziKeycard,
+            _inventoryCapacity = Inventory_Capacity
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        Rakam_0 = rakam_0;
+        Rakam_1 = saveData._rakam_1;
+        Rakam_2 = saveData._rakam_2;
+        Rakam_3 = saveData._rakam_3;
+        Rakam_4 = saveData._rakam_4;
+        Rakam_5 = saveData._rakam_5;
+        Rakam_6 = saveData._rakam_6;
+        Rakam_7 = saveData._rakam_7;
+        Rakam_8 = saveData._rakam_8;
+        Rakam_9 = saveData._rakam_9;
+        _yesilKeycard = saveData._yesilKeycard;
+        _sariKeycard = saveData._sariKeycard;
+        _kirmiziKeycard = saveData._kirmiziKeycard;
+        Inventory_Capacity = saveData._inventoryCapacity;
+
+        txt_Manager_Info.SetTheChildTexts();
+        txt_Manager_Info.SetKeycardChildTexts();
+    }
+
+    [System.Serializable]
+    struct SaveData
+    {
+        public int _rakam_0, _rakam_1, _rakam_2, _rakam_3, _rakam_4,
+                   _rakam_5, _rakam_6, _rakam_7, _rakam_8, _rakam_9;
+        public int _yesilKeycard, _sariKeycard, _kirmiziKeycard;
+        public int _inventoryCapacity;
+    }
 }
