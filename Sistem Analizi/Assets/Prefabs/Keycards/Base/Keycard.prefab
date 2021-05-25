@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d884a8608b8a74786473c5b9133e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keycard: 0
+  keycardType: 0
   CollectedParticle: {fileID: 7211662553991198926, guid: 555d197ef60ddc74981961e6d3ef6fda,
     type: 3}
 --- !u!114 &7553033320396748151
@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee2044d98422a3478e50c799dd68b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NotificationCanvas: {fileID: 5663425175943790960, guid: dcf68267571af7e458a3af4575e1f43c,
-    type: 3}
+  notificationChannel: {fileID: 11400000, guid: de2802bc8e1564e44bb84f930d58a887,
+    type: 2}
 --- !u!114 &6888765827893129912
 MonoBehaviour:
   m_ObjectHideFlags: 0

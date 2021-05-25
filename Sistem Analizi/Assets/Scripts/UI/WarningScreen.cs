@@ -1,0 +1,18 @@
+﻿using System.Collections;
+using TMPro;
+using UnityEngine;
+
+public class WarningScreen : MonoBehaviour
+{
+    private TMP_Text txt_Uyari;
+
+    private void Awake()
+    {
+        txt_Uyari = GetComponentInChildren<TMP_Text>();
+    }
+
+    public void SetText(string text)
+    {
+        txt_Uyari.text = text;
+    }
+}

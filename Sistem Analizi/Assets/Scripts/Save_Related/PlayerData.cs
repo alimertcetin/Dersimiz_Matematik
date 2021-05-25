@@ -10,7 +10,7 @@ public class PlayerData
 
     public float[] position = new float[3];
 
-    public PlayerData(instance_Player_Inventory inventory, instance_LittlePeopleController littlePeopleController)
+    public PlayerData(PlayerInventory inventory, PlayerController littlePeopleController)
     {
         rakam_0 = inventory.Rakam_0; rakam_1 = inventory.Rakam_1; rakam_2 = inventory.Rakam_2;
         rakam_3 = inventory.Rakam_3; rakam_4 = inventory.Rakam_4; rakam_5 = inventory.Rakam_5;

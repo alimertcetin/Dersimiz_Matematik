@@ -1,0 +1,22 @@
+{
+    "name": "Unity.Addressables.Editor",
+    "references": [
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Unity.ScriptableBuildPipeline.Editor",
+        "Unity.ScriptableBuildPipeline"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "versionDefines": [
+        {
+            "name": "Unity",
+            "expression": "2020.2.0a9",
+            "define": "NONRECURSIVE_DEPENDENCY_DATA"
+        }
+    ]
+}

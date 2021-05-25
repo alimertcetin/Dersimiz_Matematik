@@ -5,7 +5,7 @@ using TMPro;
 
 public class instance_TxtManager : MonoBehaviour
 {
-    instance_Player_Inventory _inventory;
+    PlayerInventory _inventory;
     [Header("HUD üzerindeki sayıların child textlerini sırasıyla ekleyin.")]
     [SerializeField] TMP_Text[] Txt_Array_ChildSayilar = null;
 
@@ -23,7 +23,7 @@ public class instance_TxtManager : MonoBehaviour
         Txt_Seviye3 = KeycardArray[2].GetComponentInChildren<TMP_Text>();
 
         //---First find the inventory and then set the correct numbers for childTexts---\\
-        _inventory = FindObjectOfType<instance_Player_Inventory>();
+        _inventory = FindObjectOfType<PlayerInventory>();
         SetTheChildTexts();
         SetKeycardChildTexts();
     }
