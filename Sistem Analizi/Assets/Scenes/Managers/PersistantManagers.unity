@@ -417,7 +417,8 @@ MonoBehaviour:
   _gameplayScene: {fileID: 11400000, guid: acbe782f950bcef48a9798f3ca6f50bf, type: 2}
   _loadLocation: {fileID: 11400000, guid: c3ca7424149b82a45ab3b5d5b9569604, type: 2}
   _loadMenu: {fileID: 11400000, guid: 10e147533cc4a974f8c451c41b867959, type: 2}
-  _coldStartupLocation: {fileID: 0}
+  _coldStartupLocation: {fileID: 11400000, guid: e2516161a4b0ab546aace669d5366b5e,
+    type: 2}
   _toggleLoadingScreen: {fileID: 11400000, guid: 4e05f22189e73674e8454a31f7d1e91f,
     type: 2}
   _onSceneReady: {fileID: 11400000, guid: 054c4698ba8cb9143b451505200edd52, type: 2}

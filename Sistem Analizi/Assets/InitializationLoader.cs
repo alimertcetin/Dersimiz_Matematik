@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
@@ -8,13 +9,14 @@ using UnityEngine.SceneManagement;
 /// This class is responsible for starting the game by loading the persistent managers scene 
 /// and raising the event to load the Main Menu
 /// </summary>
+
 public class InitializationLoader : MonoBehaviour
 {
     [SerializeField] private GameSceneSO _managersScene = default;
     [SerializeField] private GameSceneSO _menuToLoad = default;
 
     [Header("Broadcasting on")]
-    [SerializeField] private LoadEventChannelSO _menuLoadChannel = default;
+    public AssetReference _menuLoadChannel = default;
 
     private void Start()
     {
@@ -24,15 +26,21 @@ public class InitializationLoader : MonoBehaviour
 
     private void LoadEventChannel(AsyncOperationHandle<SceneInstance> obj)
     {
-        _menuLoadChannel.RaiseEvent(_menuToLoad);
+        _menuLoadChannel.LoadAssetAsync<LoadEventChannelSO>().Completed += LoadMainMenu;
+    }
+
+    private void LoadMainMenu(AsyncOperationHandle<LoadEventChannelSO> obj)
+    {
+        SceneLoader.onMenuChannelLoaded.Invoke(obj.Result);
+        StartCoroutine(raiseEvent(obj.Result));
+    }
+
+    private IEnumerator raiseEvent(LoadEventChannelSO eventChannelSO)
+    {
+        yield return new WaitForEndOfFrame();
+
+        eventChannelSO.RaiseEvent(_menuToLoad);
 
         SceneManager.UnloadSceneAsync(0); //Initialization is the only scene in BuildSettings, thus it has index 0
     }
-
-    //private void LoadMainMenu(AsyncOperationHandle<LoadEventChannelSO> obj)
-    //{
-    //    obj.Result.RaiseEvent(_menuToLoad);
-
-    //    SceneManager.UnloadSceneAsync(0); //Initialization is the only scene in BuildSettings, thus it has index 0
-    //}
 }

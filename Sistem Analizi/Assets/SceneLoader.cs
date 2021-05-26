@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -9,6 +13,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneLoader : MonoBehaviour
 {
+    public static UnityAction<LoadEventChannelSO> onMenuChannelLoaded;
+
     [SerializeField] private GameSceneSO _gameplayScene = default;
 
     [Header("Load Events")]
@@ -32,20 +38,27 @@ public class SceneLoader : MonoBehaviour
 
     private void OnEnable()
     {
-        _loadLocation.OnLoadingRequested += LoadLocation;
-        _loadMenu.OnLoadingRequested += LoadMenu;
-//#if UNITY_EDITOR
-//        _coldStartupLocation.OnLoadingRequested += LocationColdStartup;
-//#endif
+        onMenuChannelLoaded += LoadmenuChannelLoaded;
+#if UNITY_EDITOR
+        _coldStartupLocation.OnLoadingRequested += LocationColdStartup;
+#endif
     }
 
     private void OnDisable()
     {
+        onMenuChannelLoaded -= LoadmenuChannelLoaded;
         _loadLocation.OnLoadingRequested -= LoadLocation;
         _loadMenu.OnLoadingRequested -= LoadMenu;
-//#if UNITY_EDITOR
-//        _coldStartupLocation.OnLoadingRequested -= LocationColdStartup;
-//#endif
+#if UNITY_EDITOR
+        _coldStartupLocation.OnLoadingRequested -= LocationColdStartup;
+#endif
+    }
+
+    private void LoadmenuChannelLoaded(LoadEventChannelSO arg0)
+    {
+        _loadMenu = arg0;
+        _loadLocation.OnLoadingRequested += LoadLocation;
+        _loadMenu.OnLoadingRequested += LoadMenu;
     }
 
 #if UNITY_EDITOR
@@ -124,15 +137,15 @@ public class SceneLoader : MonoBehaviour
                 //Unload the scene through its AssetReference, i.e. through the Addressable system
                 _currentlyLoadedScene.sceneReference.UnLoadScene();
             }
-//#if UNITY_EDITOR
-//            else
-//            {
-//                //Only used when, after a "cold start", the player moves to a new scene
-//                //Since the AsyncOperationHandle has not been used (the scene was already open in the editor),
-//                //the scene needs to be unloaded using regular SceneManager instead of as an Addressable
-//                SceneManager.UnloadSceneAsync(_currentlyLoadedScene.sceneReference.editorAsset.name);
-//            }
-//#endif
+#if UNITY_EDITOR
+            else
+            {
+                //Only used when, after a "cold start", the player moves to a new scene
+                //Since the AsyncOperationHandle has not been used (the scene was already open in the editor),
+                //the scene needs to be unloaded using regular SceneManager instead of as an Addressable
+                SceneManager.UnloadSceneAsync(_currentlyLoadedScene.sceneReference.editorAsset.name);
+            }
+#endif
         }
 
         LoadNewScene();

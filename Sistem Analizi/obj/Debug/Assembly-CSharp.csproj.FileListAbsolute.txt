@@ -919,7 +919,6 @@ C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\obj\Debug\Asse
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\obj\Debug\Assembly-CSharp.dll
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\obj\Debug\Assembly-CSharp.pdb
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.InputSystem.dll
-C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.InputSystem.pdb
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.Addressables.dll
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.Addressables.Editor.dll
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.ResourceManager.dll
@@ -928,6 +927,7 @@ C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\UnityEditor.CacheServer.dll
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\UnityEditor.CacheServer.pdb
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.ScriptableBuildPipeline.Editor.pdb
+C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.InputSystem.pdb
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.ResourceManager.pdb
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.Addressables.Editor.pdb
 C:\Users\mrtme\Documents\GitHub\Dersimiz_Matematik\Sistem Analizi\Temp\bin\Debug\Unity.Addressables.pdb

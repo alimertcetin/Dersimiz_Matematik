@@ -1,14 +1,10 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - BoolEventChannelSO
     - InitializationLoader
     - LoadEventChannelSO
     - LocationSO
-    - LockedDoorUIEventChannel
     - PersistantManagerSO
-    - StringEventChannelSO
-    - VoidEventChannelSO
     Unity.Addressables.Editor.dll:
     - UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject
     - UnityEditor.AddressableAssets.Build.DataBuilders.BuildScriptFastMode
@@ -16,6 +12,7 @@ ScriptsOnlyBuild:
     - UnityEditor.AddressableAssets.Build.DataBuilders.BuildScriptPackedPlayMode
     - UnityEditor.AddressableAssets.Build.DataBuilders.BuildScriptVirtualMode
     - UnityEditor.AddressableAssets.GUI.AddressableAssetsWindow
+    - UnityEditor.AddressableAssets.GUI.AnalyzeWindow
     - UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
     - UnityEditor.AddressableAssets.Settings.AddressableAssetGroupTemplate
     - UnityEditor.AddressableAssets.Settings.AddressableAssetSettings
@@ -59,6 +56,7 @@ ScriptsOnlyBuild:
     Unity.RenderPipelines.Universal.Runtime.dll:
     - UnityEngine.Rendering.Universal.ForwardRendererData
     - UnityEngine.Rendering.Universal.PostProcessData
+    - UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
     - UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset
     - UnityEngine.Rendering.Universal.UniversalRenderPipelineEditorResources
     Unity.Rider.Editor.dll:
@@ -101,15 +99,29 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 4
       Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
     - Class: 21
       Script: {instanceID: 0}
+    - Class: 23
+      Script: {instanceID: 0}
     - Class: 28
+      Script: {instanceID: 0}
+    - Class: 33
+      Script: {instanceID: 0}
+    - Class: 43
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
     - Class: 49
       Script: {instanceID: 0}
+    - Class: 65
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
     - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
       Script: {instanceID: 0}
     - Class: 114
       Script: {instanceID: 11482}
@@ -134,27 +146,27 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11914}
     - Class: 114
-      Script: {instanceID: 12170}
+      Script: {instanceID: 12168}
     - Class: 114
-      Script: {instanceID: 12244}
+      Script: {instanceID: 12242}
     - Class: 114
-      Script: {instanceID: 12500}
+      Script: {instanceID: 12498}
     - Class: 114
-      Script: {instanceID: 12946}
+      Script: {instanceID: 12916}
     - Class: 114
-      Script: {instanceID: 12976}
+      Script: {instanceID: 12944}
     - Class: 114
-      Script: {instanceID: 13060}
+      Script: {instanceID: 12974}
     - Class: 114
-      Script: {instanceID: 13206}
+      Script: {instanceID: 13058}
     - Class: 114
-      Script: {instanceID: 13360}
+      Script: {instanceID: 13358}
     - Class: 114
-      Script: {instanceID: 13442}
+      Script: {instanceID: 13440}
     - Class: 114
-      Script: {instanceID: 13750}
+      Script: {instanceID: 13748}
     - Class: 114
-      Script: {instanceID: 13828}
+      Script: {instanceID: 13826}
     - Class: 114
       Script: {instanceID: 13910}
     - Class: 114
@@ -240,12 +252,6 @@ ScriptsOnlyBuild:
     className: GraphicRaycaster
   - hash:
       serializedVersion: 2
-      Hash: 4bc4346a71a8df53a6b106f68ef3a190
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: CanvasScaler
-  - hash:
-      serializedVersion: 2
       Hash: aeb62f729c52c814dec86c47dcac1471
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -268,6 +274,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: VerticalLayoutGroup
+  - hash:
+      serializedVersion: 2
+      Hash: 4bc4346a71a8df53a6b106f68ef3a190
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: CanvasScaler
   - hash:
       serializedVersion: 2
       Hash: a1f19ad47d3094e235f21b74dfc423a8
@@ -690,6 +702,12 @@ ScriptsOnlyBuild:
     className: TrackedDeviceRaycaster
   - hash:
       serializedVersion: 2
+      Hash: 5d8cc90a01b9a6e90adfe04acc270c1d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GamePlayCanvasManager
+  - hash:
+      serializedVersion: 2
       Hash: 5ab533713adae59372fb3e10a585c186
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -946,6 +964,12 @@ ScriptsOnlyBuild:
     assemblyName: Cinemachine.dll
     namespaceName: Cinemachine
     className: CinemachineOrbitalTransposer
+  - hash:
+      serializedVersion: 2
+      Hash: 4939cdbce64ffbc8225ada4a475c0169
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: StringEventChannelSO
   - hash:
       serializedVersion: 2
       Hash: d4020bafcd3ccbb5601a6e6c8ac78be0
@@ -1236,7 +1260,7 @@ ScriptsOnlyBuild:
     className: InputField
   - hash:
       serializedVersion: 2
-      Hash: 880d2267ba6e6cab50c0cdd2a665daec
+      Hash: d138b320d5a973e07d940453bba7e12f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: InitializationLoader
@@ -1906,20 +1930,8 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 5d8cc90a01b9a6e90adfe04acc270c1d
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: GamePlayCanvasManager
-  - hash:
-      serializedVersion: 2
-      Hash: 4939cdbce64ffbc8225ada4a475c0169
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: StringEventChannelSO
   platform: 5
   scenePathNames:
   - Assets/Scenes/Initialization.unity
-  playerPath: C:/Users/mrtme/Desktop/Sistem Analizi - SHOWCASE/ilk_Gosterim_v0.1/Build_6_IssuesOnLevelDesign/Sistem
+  playerPath: C:/Users/mrtme/Desktop/Sistem Analizi - SHOWCASE/Builds/Build_8_AddressableFix/Sistem
     Analizi.exe
