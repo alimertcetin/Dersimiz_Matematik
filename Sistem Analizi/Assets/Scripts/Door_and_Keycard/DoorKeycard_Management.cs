@@ -9,17 +9,16 @@ public class DoorKeycard_Management : MonoBehaviour, ISaveable
 {
     private Door_Notification DoorNotification = default;
 
-    public EventHandler AllKeycardsRemoved;
+    public Action AllKeycardsRemoved;
+    public Action KeycardRemoved;
 
     [SerializeField]
     private List<Door_and_Keycard_Level> gerekenKeycardlar = null;
-    public List<Door_and_Keycard_Level> GerekenKeycardlar { get => gerekenKeycardlar; set => gerekenKeycardlar = value; }
+    public List<Door_and_Keycard_Level> GerekenKeycardlar { get => gerekenKeycardlar; private set { } }
 
     private Door_Is_Locked Door_Is_Locked_Script;
     private PlayerInventory inventory;
 
-    private bool keycardsAreRemoved;
-    public bool KeycardsAreRemoved { get => keycardsAreRemoved; set => keycardsAreRemoved = value; }
     private bool yesil;
     private bool sari;
     private bool kirmizi;
@@ -44,40 +43,57 @@ public class DoorKeycard_Management : MonoBehaviour, ISaveable
 
     private void Awake()
     {
-        DoorNotification = GetComponent<Door_Notification>();
-
         inventory = FindObjectOfType<PlayerInventory>();
+
+        DoorNotification = GetComponent<Door_Notification>();
         Door_Is_Locked_Script = GetComponent<Door_Is_Locked>();
+
         if (Door_Is_Locked_Script != null)
         {
             Door_Is_Locked_Script.KapiAcildi += Door_Is_Locked_Kapi_Acildi;
         }
+        else
+        {
+            DoorOpened = true;
+        }
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (gerekenKeycardlar == null || gerekenKeycardlar.Count == 0 && !keycardsAreRemoved)
+        if (other.CompareTag("Player"))
         {
-            AllKeycardsRemoved?.Invoke(this, EventArgs.Empty);
-            keycardsAreRemoved = true;
+            triggered = true;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (triggered && gerekenKeycardlar.Count == 0)
+        {
+            AllKeycardsRemoved?.Invoke();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            triggered = false;
+        }
+    }
+
+    private void Interact_performed(InputAction.CallbackContext obj)
+    {
+        if (triggered && doorOpened && gerekenKeycardlar.Count != 0)
+        {
+            RemoveKeycardFromDoor();
+            KeycardRemoved.Invoke();
         }
     }
 
     private void Door_Is_Locked_Kapi_Acildi(Door_Is_Locked door)
     {
-        Door_Is_Locked Door = door;
-        doorOpened = Door.DoorLocked ? false : true;
-    }
-
-    private void Interact_performed(InputAction.CallbackContext obj)
-    {
-        if (triggered && !keycardsAreRemoved)
-        {
-            if (doorOpened || Door_Is_Locked_Script == null)
-            {
-                RemoveKeycardFromDoor();
-            }
-        }
+        doorOpened = !door.DoorLocked;
     }
 
     private void RemoveKeycardFromDoor()
@@ -120,29 +136,11 @@ public class DoorKeycard_Management : MonoBehaviour, ISaveable
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            triggered = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            triggered = false;
-        }
-    }
-
     public string Door_Keycard_NotificationText()
     {
-        string str = "";
-        str = "Bu kapıyı açmak için ";
-        int Yesil_count = CountKeycards(Door_and_Keycard_Level.Yesil);
-        int Sari_count = CountKeycards(Door_and_Keycard_Level.Sari);
-        int Kirmizi_count = CountKeycards(Door_and_Keycard_Level.Kirmizi);
+        string str = "Bu kapıyı açmak için ";
+
+        CountKeycards(out int Yesil_count, out int Sari_count, out int Kirmizi_count);
 
         if (Yesil_count != 0)
         {
@@ -169,41 +167,26 @@ public class DoorKeycard_Management : MonoBehaviour, ISaveable
         }
     }
 
-    private int CountKeycards(Door_and_Keycard_Level _keycard)
+    private void CountKeycards(out int yesilCount, out int sariCount, out int kirmiziCount)
     {
-        int count = 0;
-        if (_keycard == Door_and_Keycard_Level.Yesil)
+        yesilCount = 0;
+        sariCount = 0;
+        kirmiziCount = 0;
+        foreach (Door_and_Keycard_Level item in gerekenKeycardlar)
         {
-            foreach (Door_and_Keycard_Level item in gerekenKeycardlar)
+            if(item == Door_and_Keycard_Level.Yesil)
             {
-                if (item == Door_and_Keycard_Level.Yesil)
-                {
-                    count += 1;
-                }
+                yesilCount += 1;
+            }
+            else if(item == Door_and_Keycard_Level.Sari)
+            {
+                sariCount += 1;
+            }
+            else if(item == Door_and_Keycard_Level.Kirmizi)
+            {
+                kirmiziCount += 1;
             }
         }
-        else if (_keycard == Door_and_Keycard_Level.Sari)
-        {
-            foreach (Door_and_Keycard_Level item in gerekenKeycardlar)
-            {
-                if (item == Door_and_Keycard_Level.Sari)
-                {
-                    count += 1;
-                }
-            }
-        }
-        else if (_keycard == Door_and_Keycard_Level.Kirmizi)
-        {
-            foreach (Door_and_Keycard_Level item in gerekenKeycardlar)
-            {
-                if (item == Door_and_Keycard_Level.Kirmizi)
-                {
-                    count += 1;
-                }
-            }
-        }
-
-        return count;
     }
 
     #region -_- Save -_-
@@ -212,7 +195,7 @@ public class DoorKeycard_Management : MonoBehaviour, ISaveable
     {
         return new SaveData
         {
-            _KeycardsAreRemoved = KeycardsAreRemoved,
+            _KeycardsAreRemoved = gerekenKeycardlar == null || gerekenKeycardlar.Count == 0 ? true : false,
             _DoorOpened = DoorOpened,
             _GerekenKeycardlar = GerekenKeycardlar
         };
@@ -221,7 +204,10 @@ public class DoorKeycard_Management : MonoBehaviour, ISaveable
     public void RestoreState(object state)
     {
         SaveData saveData = (SaveData)state;
-        KeycardsAreRemoved = saveData._KeycardsAreRemoved;
+        if (saveData._KeycardsAreRemoved)
+        {
+            gerekenKeycardlar = null;
+        }
         DoorOpened = saveData._DoorOpened;
         GerekenKeycardlar = saveData._GerekenKeycardlar;
     }

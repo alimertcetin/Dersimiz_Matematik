@@ -4,6 +4,16 @@ public static class InputManager
 {
     public static PlayerControls PlayerControls = new PlayerControls();
 
+    public static void DisableAllInput()
+    {
+        GamePlay.Disable();
+        SayiAlUI.Disable();
+        IslemYapUI.Disable();
+        GameManager.Disable();
+        LockedDoorUI.Disable();
+        BlackBoardUIManagement.Disable();
+    }
+
     public static class GamePlay
     {
         public static Action enabled = delegate { };
@@ -11,6 +21,7 @@ public static class InputManager
 
         public static void Enable()
         {
+            CursorManager.Instance.LockCursor();
             PlayerControls.Gameplay.Enable();
             enabled.Invoke();
         }
@@ -29,6 +40,7 @@ public static class InputManager
 
         public static void Enable()
         {
+            CursorManager.Instance.UnlockCursor();
             PlayerControls.LockedDoorUI.Enable();
             enabled.Invoke();
         }
@@ -48,6 +60,7 @@ public static class InputManager
 
         public static void Enable()
         {
+            CursorManager.Instance.UnlockCursor();
             PlayerControls.IslemYapUI.Enable();
             IslemYapUI_Enabled.Invoke();
         }
@@ -66,6 +79,7 @@ public static class InputManager
 
         public static void Enable()
         {
+            CursorManager.Instance.UnlockCursor();
             PlayerControls.SayiAlUI.Enable();
             SayiAlUI_Enabled.Invoke();
         }
@@ -84,6 +98,7 @@ public static class InputManager
 
         public static void Enable()
         {
+            CursorManager.Instance.UnlockCursor();
             PlayerControls.GameManager.Enable();
             GameManagerEnabled.Invoke();
         }
@@ -102,6 +117,7 @@ public static class InputManager
 
         public static void Enable()
         {
+            CursorManager.Instance.UnlockCursor();
             PlayerControls.BlackBoardUIManagement.Enable();
             enabled.Invoke();
         }

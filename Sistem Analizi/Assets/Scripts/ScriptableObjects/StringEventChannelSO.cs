@@ -7,10 +7,15 @@ using UnityEngine.Events;
 public class StringEventChannelSO : EventChannelBaseSO
 {
     public UnityAction<string, bool> OnEventRaised;
-    public void RaiseEvent(string strValue, bool boolValue = true)
+
+    /// <param name="strValue">Leave empty "" if boolValue = false</param>
+    /// <param name="boolValue">Show the text</param>
+    public void RaiseEvent(string strValue = "", bool boolValue = true)
     {
         if (OnEventRaised != null)
+        {
             OnEventRaised.Invoke(strValue, boolValue);
+        }
         else
         {
             Debug.LogWarning("Nobody picked up the string event.");

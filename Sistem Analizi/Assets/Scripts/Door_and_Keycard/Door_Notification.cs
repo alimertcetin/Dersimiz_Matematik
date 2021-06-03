@@ -11,7 +11,9 @@ public class Door_Notification : MonoBehaviour
     private Door_Is_Locked doorIsLocked;
     private DoorKeycard_Management keycardManager;
     private Door_Animation doorAnimation;
-    private bool triggered, doorLocked, keycardsAreRemoved;
+    private bool triggered;
+    private bool doorLocked;
+    private bool keycardsAreRemoved;
 
     private void Awake()
     {
@@ -26,35 +28,11 @@ public class Door_Notification : MonoBehaviour
         if (TryGetComponent<DoorKeycard_Management>(out keycardManager))
         {
             keycardManager.AllKeycardsRemoved += KeycardsRemovedFromDoor;
-            keycardsAreRemoved = keycardManager.KeycardsAreRemoved;
+            keycardManager.KeycardRemoved += RefreshNotification;
         }
         else
         {
             keycardsAreRemoved = true;
-        }
-    }
-
-    private void Update()
-    {
-        if (triggered)
-        {
-            if (keycardManager != null)
-            {
-                keycardsAreRemoved = keycardManager.KeycardsAreRemoved;
-            }
-
-            if (doorLocked)
-            {
-                notificationChannel.RaiseEvent("Kapı kilitli. Şifreyi görmek için F bas.");
-            }
-            else if (!doorLocked && !keycardsAreRemoved)
-            {
-                notificationChannel.RaiseEvent(keycardManager.Door_Keycard_NotificationText());
-            }
-            else if (!doorLocked && keycardsAreRemoved)
-            {
-                notificationChannel.RaiseEvent(GiveInfo_DoorIsOpen_OrNot(doorAnimation.DoorIsOpen));
-            }
         }
     }
 
@@ -63,6 +41,41 @@ public class Door_Notification : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggered = true;
+
+            if (doorLocked)
+            {
+                notificationChannel.RaiseEvent("Door is locked. Press " + InputManager.PlayerControls.Gameplay.Interact.name
+                    + " button to see the Question.");
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (triggered)
+        {
+            RefreshNotification();
+        }
+    }
+
+    private void RefreshNotification()
+    {
+        if (InputManager.PlayerControls.LockedDoorUI.enabled)
+        {
+            notificationChannel.RaiseEvent(null, false);
+        }
+        else if (!doorLocked && !keycardsAreRemoved)
+        {
+            notificationChannel.RaiseEvent(keycardManager.Door_Keycard_NotificationText());
+        }
+        else if (!doorLocked && keycardsAreRemoved)
+        {
+            notificationChannel.RaiseEvent(GiveInfo_DoorIsOpen_OrNot(doorAnimation.DoorIsOpen));
+        }
+        else if (doorLocked)
+        {
+            notificationChannel.RaiseEvent("Door is locked. Press " + InputManager.PlayerControls.Gameplay.Interact.name
+                + " button to see the Question.");
         }
     }
 
@@ -71,11 +84,11 @@ public class Door_Notification : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggered = false;
-            notificationChannel.RaiseEvent("", false);
+            notificationChannel.RaiseEvent(null, false);
         }
     }
 
-    private void KeycardsRemovedFromDoor(object sender, EventArgs e)
+    private void KeycardsRemovedFromDoor()
     {
         keycardManager = null;
         keycardsAreRemoved = true;

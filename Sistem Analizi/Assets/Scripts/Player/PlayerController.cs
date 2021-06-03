@@ -32,8 +32,6 @@ public class PlayerController : MonoBehaviour, ISaveable
 
     private void OnEnable()
     {
-        InputManager.GamePlay.Enable();
-
         InputManager.PlayerControls.Gameplay.Move.performed += Move_performed;
         InputManager.PlayerControls.Gameplay.Move.canceled += Move_canceled;
 
@@ -41,6 +39,8 @@ public class PlayerController : MonoBehaviour, ISaveable
 
         InputManager.PlayerControls.Gameplay.Run.performed += Run_performed;
         InputManager.PlayerControls.Gameplay.Run.canceled += Run_canceled;
+
+        InputManager.GamePlay.Enable();
     }
 
     private void OnDisable()

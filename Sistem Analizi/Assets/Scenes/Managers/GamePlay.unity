@@ -1012,6 +1012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb84d61697600749a941449db5acac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventorySO: {fileID: 11400000, guid: 4100cc4c571a080429e1ea4d7580b586, type: 2}
   Txt_Array_ChildSayilar:
   - {fileID: 377009672}
   - {fileID: 483318971}
@@ -9141,20 +9142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnInventoryLoaded: {fileID: 11400000, guid: db5b98356118d2b4596bd585e60eea33, type: 2}
-  rakam_0: 50
-  rakam_1: 50
-  rakam_2: 50
-  rakam_3: 50
-  rakam_4: 50
-  rakam_5: 50
-  rakam_6: 50
-  rakam_7: 50
-  rakam_8: 50
-  rakam_9: 50
-  YesilKeycard: 0
-  sariKeycard: 0
-  KirmiziKeycard: 0
-  _inventory_Capacity: 5
+  inventorySO: {fileID: 11400000, guid: 4100cc4c571a080429e1ea4d7580b586, type: 2}
 --- !u!4 &1896991898
 Transform:
   m_ObjectHideFlags: 0

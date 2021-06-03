@@ -10,16 +10,17 @@ public class PlayerData
 
     public float[] position = new float[3];
 
-    public PlayerData(PlayerInventory inventory, PlayerController littlePeopleController)
+    public PlayerData(PlayerInventorySO inventorySO, PlayerController littlePeopleController)
     {
-        rakam_0 = inventory.Rakam_0; rakam_1 = inventory.Rakam_1; rakam_2 = inventory.Rakam_2;
-        rakam_3 = inventory.Rakam_3; rakam_4 = inventory.Rakam_4; rakam_5 = inventory.Rakam_5;
-        rakam_6 = inventory.Rakam_6; rakam_7 = inventory.Rakam_7; rakam_8 = inventory.Rakam_8;
-        rakam_9 = inventory.Rakam_9;
-        yesilKeycard = inventory._yesilKeycard; sariKeycard = inventory._sariKeycard;
-        kirmiziKeycard = inventory._kirmiziKeycard;
+        rakam_0 = inventorySO.Rakam_0; rakam_1 = inventorySO.Rakam_1; rakam_2 = inventorySO.Rakam_2;
+        rakam_3 = inventorySO.Rakam_3; rakam_4 = inventorySO.Rakam_4; rakam_5 = inventorySO.Rakam_5;
+        rakam_6 = inventorySO.Rakam_6; rakam_7 = inventorySO.Rakam_7; rakam_8 = inventorySO.Rakam_8;
+        rakam_9 = inventorySO.Rakam_9;
+        yesilKeycard = inventorySO.yesilKeycard;
+        sariKeycard = inventorySO.sariKeycard;
+        kirmiziKeycard = inventorySO.kirmiziKeycard;
 
-        inventoryCapacity = inventory.Inventory_Capacity;
+        inventoryCapacity = inventorySO.Capacity;
 
         position[0] = littlePeopleController.transform.position.x;
         position[1] = littlePeopleController.transform.position.y;

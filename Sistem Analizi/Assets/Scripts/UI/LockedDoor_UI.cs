@@ -31,7 +31,9 @@ public class LockedDoor_UI : MonoBehaviour, PlayerControls.ILockedDoorUIActions
     private void OnEnable()
     {
         if (LockedDoor_Script != null)
+        {
             txt_Soru.text = LockedDoor_Script.DoorLockedQuestion;
+        }
 
         InputManager.LockedDoorUI.Enable();
         InputManager.GameManager.Disable();

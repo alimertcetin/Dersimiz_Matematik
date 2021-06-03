@@ -29,9 +29,9 @@ public class BlackBoard_UI : MonoBehaviour, PlayerControls.IBlackBoardUIManageme
         islemYap_UI.SetActive(false);
         SayiAl_UI.SetActive(false);
 
-        InputManager.GamePlay.Enable();
-        InputManager.GameManager.Enable();
         InputManager.BlackBoardUIManagement.Disable();
+        InputManager.GameManager.Enable();
+        InputManager.GamePlay.Enable();
     }
 
     public void OnExit(InputAction.CallbackContext context)
@@ -60,8 +60,8 @@ public class BlackBoard_UI : MonoBehaviour, PlayerControls.IBlackBoardUIManageme
     public void btn_Exit()
     {
         InputManager.BlackBoardUIManagement.Disable();
-        InputManager.GamePlay.Enable();
         InputManager.GameManager.Enable();
+        InputManager.GamePlay.Enable();
         BlackBoardUIChannel.RaiseEvent(false);
     }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 [DisallowMultipleComponent]
@@ -29,44 +30,24 @@ public class Door_Animation : Animation_Manager_Class, ISaveable
             Debug.LogError("Couldnt find Door animator. Door will not open or close!");
         }
 
-        TryGetComponent(out Door_Is_Locked _door);
-        door = _door;
-        TryGetComponent(out DoorKeycard_Management _keycard);
-        Keycard = _keycard;
+        TryGetComponent(out door);
+        TryGetComponent(out Keycard);
     }
 
     private void OnEnable()
     {
         InputManager.PlayerControls.Gameplay.Interact.performed += Interact_performed;
+
+        if (Keycard != null)
+            Keycard.AllKeycardsRemoved += onKeycardsRemoved;
     }
 
     private void OnDisable()
     {
-        InputManager.PlayerControls.Gameplay.Interact.performed -= Interact_performed;
-    }
+        if (Keycard != null)
+            Keycard.AllKeycardsRemoved -= onKeycardsRemoved;
 
-    private void Interact_performed(InputAction.CallbackContext obj)
-    {
-        if (triggered && !doorLocked && keycardsAreRemoved) 
-        {
-            if (IsThisLeftSide)
-            {
-                LeftSideMovement(doorIsOpen);
-                if (otherDoor != null)
-                {
-                    otherDoor.RightSideMovement(doorIsOpen);
-                }
-            }
-            else
-            {
-                RightSideMovement(doorIsOpen);
-                if (otherDoor != null)
-                {
-                    otherDoor.LeftSideMovement(doorIsOpen);
-                }
-            }
-            doorIsOpen = !doorIsOpen;
-        }
+        InputManager.PlayerControls.Gameplay.Interact.performed -= Interact_performed;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -96,7 +77,7 @@ public class Door_Animation : Animation_Manager_Class, ISaveable
             }
             else
             {
-                keycardsAreRemoved = Keycard.KeycardsAreRemoved;
+                keycardsAreRemoved = Keycard.GerekenKeycardlar.Count == 0 || Keycard.GerekenKeycardlar == null ? true : false;
             }
         }
     }
@@ -107,6 +88,35 @@ public class Door_Animation : Animation_Manager_Class, ISaveable
         {
             triggered = false;
         }
+    }
+
+    private void Interact_performed(InputAction.CallbackContext obj)
+    {
+        if (triggered && !doorLocked && keycardsAreRemoved)
+        {
+            if (IsThisLeftSide)
+            {
+                LeftSideMovement(doorIsOpen);
+                if (otherDoor != null)
+                {
+                    otherDoor.RightSideMovement(doorIsOpen);
+                }
+            }
+            else
+            {
+                RightSideMovement(doorIsOpen);
+                if (otherDoor != null)
+                {
+                    otherDoor.LeftSideMovement(doorIsOpen);
+                }
+            }
+            doorIsOpen = !doorIsOpen;
+        }
+    }
+
+    private void onKeycardsRemoved()
+    {
+        keycardsAreRemoved = true;
     }
 
     private void RightSideMovement(bool doorIsOpen)

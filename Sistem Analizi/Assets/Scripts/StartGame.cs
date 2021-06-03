@@ -23,29 +23,30 @@ public class StartGame : MonoBehaviour
     //[SerializeField]
     //private VoidEventChannelSO _continueGameEvent = default;
 
-
     private void Start()
     {
         //_hasSaveData = _saveSystem.LoadSaveDataFromDisk();
         //_startNewGameEvent.OnEventRaised += StartNewGame;
         //_continueGameEvent.OnEventRaised += ContinuePreviousGame;
     }
+
     public void StartNewGame()
     {
         //_hasSaveData = false;
         //_saveSystem.WriteEmptySaveFile();
         //Start new game
         _startGameEvent.RaiseEvent(_locationsToLoad, _showLoadScreen);
-
-
+        InputManager.DisableAllInput();
+        InputManager.GameManager.Enable();
+        InputManager.GamePlay.Enable();
     }
-    void ContinuePreviousGame()
+
+    private void ContinuePreviousGame()
     {
         //StartCoroutine(LoadSaveGame());
     }
 
-
-    void OnResetSaveDataPress()
+    private void OnResetSaveDataPress()
     {
         //_hasSaveData = false;
 

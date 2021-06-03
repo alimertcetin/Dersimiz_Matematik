@@ -34,6 +34,11 @@ public class GameManager : MonoBehaviour, PlayerControls.IGameManagerActions
         //InputManager.LockedDoorUI.disabled -= CursorManager.Instance.LockCursor;
     }
 
+    private void OnApplicationQuit()
+    {
+        CursorManager.Instance.UnlockCursor(CursorLockMode.None);
+    }
+
     /// <summary>
     /// Tanımlanan menüler açıksa true döner
     /// </summary>
@@ -71,10 +76,12 @@ public class GameManager : MonoBehaviour, PlayerControls.IGameManagerActions
         {
             if (!pauseMenu.activeSelf)
             {
+                CursorManager.Instance.UnlockCursor();
                 pauseMenu.SetActive(true);
             }
             else
             {
+                CursorManager.Instance.LockCursor();
                 pauseMenu.SetActive(false);
             }
         }
