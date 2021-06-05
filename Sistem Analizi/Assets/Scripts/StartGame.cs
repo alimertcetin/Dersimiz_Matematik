@@ -7,7 +7,7 @@
 public class StartGame : MonoBehaviour
 {
     [SerializeField]
-    private GameSceneSO _locationsToLoad;
+    private GameSceneSO _locationsToLoad = default;
     [SerializeField]
     private bool _showLoadScreen = default;
     //[SerializeField]
@@ -36,7 +36,6 @@ public class StartGame : MonoBehaviour
         //_saveSystem.WriteEmptySaveFile();
         //Start new game
         _startGameEvent.RaiseEvent(_locationsToLoad, _showLoadScreen);
-        InputManager.DisableAllInput();
         InputManager.GameManager.Enable();
         InputManager.GamePlay.Enable();
     }

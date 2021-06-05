@@ -1,24 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SaveableEntity))]
 public class PlayerInventory : MonoBehaviour, ISaveable
 {
-    [SerializeField] private VoidEventChannelSO OnInventoryLoaded;
-
-    instance_TxtManager txt_Manager_Info;
-    [SerializeField] private PlayerInventorySO inventorySO;
+    [SerializeField] private VoidEventChannelSO OnInventoryLoaded = default;
+    [SerializeField] private PlayerInventorySO inventorySO = default;
 
     public int Inventory_Capacity { get => inventorySO.Capacity; }
 
     private void Awake()
     {
-        txt_Manager_Info = FindObjectOfType<instance_TxtManager>();
         OnInventoryLoaded.RaiseEvent();
     }
 
-    [System.Obsolete()]
     public bool InventoryControl_Sayi(int value)
     {
         return inventorySO.InventoryControl_Sayi(value);
@@ -27,64 +24,54 @@ public class PlayerInventory : MonoBehaviour, ISaveable
     /// <summary>
     /// Keycard envantere eklendiyse true döndürür.
     /// </summary>
-    [System.Obsolete()]
     public bool KeycardEkle(Door_and_Keycard_Level keycard)
     {
-        bool result = inventorySO.KeycardEkle(keycard);
-        txt_Manager_Info.SetKeycardChildTexts();
-        return result;
+        return inventorySO.KeycardEkle(keycard);
     }
 
     /// <summary>
     /// Keycard'ı envanterden kaldırmayı dener. Başarılıysa true döndürür.
     /// </summary>
-    /// <param name="KeycardColor">green, red, yellow</param>
-    [System.Obsolete()]
-    public bool KeycardCikar_Success(string KeycardColor)
+    /// <param name="keycardColor">green, red, yellow</param>
+    public bool KeycardCikar_Success(string keycardColor)
     {
-        bool result = inventorySO.KeycardCikar_Success(KeycardColor);
-        txt_Manager_Info.SetKeycardChildTexts();
-        return result;
+        return inventorySO.KeycardCikar_Success(keycardColor);
     }
 
     /// <summary>
     /// İşlem başarılıysa true döndürür.
     /// </summary>
-    public bool Sayi_Ekle(int _eklenecekSayi, int _eklenecekMiktar)
+    public bool Sayi_Ekle(int eklenecekSayi, int eklenecekMiktar)
     {
-        bool result = inventorySO.Sayi_Ekle(_eklenecekSayi, _eklenecekMiktar);
-        txt_Manager_Info.SetTheChildTexts();
-        return result;
+        return inventorySO.Sayi_Ekle(eklenecekSayi, eklenecekMiktar);
     }
 
     /// <summary>
     /// İşlem başarılıysa true döndürür.
     /// </summary>
-    public bool Sayi_Cikar(int _cikarilacakSayi, int _cikarilacakMiktar)
+    public bool Sayi_Cikar(int cikarilacakSayi, int cikarilacakMiktar)
     {
-        bool result = inventorySO.Sayi_Cikar(_cikarilacakSayi, _cikarilacakMiktar);
-        txt_Manager_Info.SetTheChildTexts();
-        return result;
+        return inventorySO.Sayi_Cikar(cikarilacakSayi, cikarilacakMiktar);
     }
 
     public object CaptureState()
     {
         return new SaveData
         {
-            _rakam_0 = inventorySO.Rakam_0,
-            _rakam_1 = inventorySO.Rakam_1,
-            _rakam_2 = inventorySO.Rakam_2,
-            _rakam_3 = inventorySO.Rakam_3,
-            _rakam_4 = inventorySO.Rakam_4,
-            _rakam_5 = inventorySO.Rakam_5,
-            _rakam_6 = inventorySO.Rakam_6,
-            _rakam_7 = inventorySO.Rakam_7,
-            _rakam_8 = inventorySO.Rakam_8,
-            _rakam_9 = inventorySO.Rakam_9,
-            _yesilKeycard = inventorySO.yesilKeycard,
-            _sariKeycard = inventorySO.sariKeycard,
-            _kirmiziKeycard = inventorySO.kirmiziKeycard,
-            _inventoryCapacity = inventorySO.Capacity
+            Rakam_0 = inventorySO.Rakam_0,
+            Rakam_1 = inventorySO.Rakam_1,
+            Rakam_2 = inventorySO.Rakam_2,
+            Rakam_3 = inventorySO.Rakam_3,
+            Rakam_4 = inventorySO.Rakam_4,
+            Rakam_5 = inventorySO.Rakam_5,
+            Rakam_6 = inventorySO.Rakam_6,
+            Rakam_7 = inventorySO.Rakam_7,
+            Rakam_8 = inventorySO.Rakam_8,
+            Rakam_9 = inventorySO.Rakam_9,
+            yesilKeycard = inventorySO.yesilKeycard,
+            sariKeycard = inventorySO.sariKeycard,
+            kirmiziKeycard = inventorySO.kirmiziKeycard,
+            inventoryCapacity = inventorySO.Capacity
         };
     }
 
@@ -92,31 +79,45 @@ public class PlayerInventory : MonoBehaviour, ISaveable
     {
         var saveData = (SaveData)state;
 
-        inventorySO.Rakam_0 = saveData._rakam_0;
-        inventorySO.Rakam_1 = saveData._rakam_1;
-        inventorySO.Rakam_2 = saveData._rakam_2;
-        inventorySO.Rakam_3 = saveData._rakam_3;
-        inventorySO.Rakam_4 = saveData._rakam_4;
-        inventorySO.Rakam_5 = saveData._rakam_5;
-        inventorySO.Rakam_6 = saveData._rakam_6;
-        inventorySO.Rakam_7 = saveData._rakam_7;
-        inventorySO.Rakam_8 = saveData._rakam_8;
-        inventorySO.Rakam_9 = saveData._rakam_9;
-        inventorySO.yesilKeycard = saveData._yesilKeycard;
-        inventorySO.sariKeycard = saveData._sariKeycard;
-        inventorySO.kirmiziKeycard = saveData._kirmiziKeycard;
-        inventorySO.Capacity = saveData._inventoryCapacity;
+        inventorySO.Rakam_0 = saveData.Rakam_0;
+        inventorySO.Rakam_1 = saveData.Rakam_1;
+        inventorySO.Rakam_2 = saveData.Rakam_2;
+        inventorySO.Rakam_3 = saveData.Rakam_3;
+        inventorySO.Rakam_4 = saveData.Rakam_4;
+        inventorySO.Rakam_5 = saveData.Rakam_5;
+        inventorySO.Rakam_6 = saveData.Rakam_6;
+        inventorySO.Rakam_7 = saveData.Rakam_7;
+        inventorySO.Rakam_8 = saveData.Rakam_8;
+        inventorySO.Rakam_9 = saveData.Rakam_9;
 
-        txt_Manager_Info.SetTheChildTexts();
-        txt_Manager_Info.SetKeycardChildTexts();
+        inventorySO.yesilKeycard = saveData.yesilKeycard;
+        inventorySO.sariKeycard = saveData.sariKeycard;
+        inventorySO.kirmiziKeycard = saveData.kirmiziKeycard;
+
+        inventorySO.Capacity = saveData.inventoryCapacity;
+
+        inventorySO.InventoryChanged_Number.Invoke();
+        inventorySO.InventoryChanged_Keycard.Invoke();
     }
 
     [System.Serializable]
     struct SaveData
     {
-        public int _rakam_0, _rakam_1, _rakam_2, _rakam_3, _rakam_4,
-                   _rakam_5, _rakam_6, _rakam_7, _rakam_8, _rakam_9;
-        public int _yesilKeycard, _sariKeycard, _kirmiziKeycard;
-        public int _inventoryCapacity;
+        public int Rakam_0;
+        public int Rakam_1;
+        public int Rakam_2;
+        public int Rakam_3;
+        public int Rakam_4;
+        public int Rakam_5;
+        public int Rakam_6;
+        public int Rakam_7;
+        public int Rakam_8;
+        public int Rakam_9;
+
+        public int yesilKeycard;
+        public int sariKeycard;
+        public int kirmiziKeycard;
+
+        public int inventoryCapacity;
     }
 }

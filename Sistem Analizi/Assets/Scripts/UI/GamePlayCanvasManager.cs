@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using XIV.UI;
 
 public class GamePlayCanvasManager : MonoBehaviour
 {
@@ -8,17 +8,17 @@ public class GamePlayCanvasManager : MonoBehaviour
     [SerializeField] private float WarningTime = 2f;
 
     [Header("UI Elements")]
-    [SerializeField] private GameObject PauseMenuUI = default;
-    [SerializeField] private GameObject BlackBoardUI = default;
+    [SerializeField] private PausedMenu_UI PauseMenuUI = default;
+    [SerializeField] private BlackBoard_UI BlackBoardUI = default;
     [SerializeField] private LockedDoor_UI LockedDoorUI = default;
-    [SerializeField] private GameObject HudUI = default;
+    [SerializeField] private HUD_UI HudUI = default;
     [SerializeField] private Notification Notification = default;
     [SerializeField] private WarningScreen WarningUI = default;
 
-    public bool pauseMenu_acitveSelf { get => PauseMenuUI.activeSelf; }
-    public bool BlackBoardUI_acitveSelf { get => BlackBoardUI.activeSelf; }
+    public bool pauseMenu_acitveSelf { get => PauseMenuUI.gameObject.activeSelf; }
+    public bool BlackBoardUI_acitveSelf { get => BlackBoardUI.gameObject.activeSelf; }
     public bool LockedDoorUI_acitveSelf { get => LockedDoorUI.gameObject.activeSelf; }
-    public bool HudUI_acitveSelf { get => HudUI.activeSelf; }
+    public bool HudUI_acitveSelf { get => HudUI.gameObject.activeSelf; }
     public bool Notification_acitveSelf { get => Notification.gameObject.activeSelf; }
     public bool WarningUI_acitveSelf { get => WarningUI.gameObject.activeSelf; }
 
@@ -54,12 +54,20 @@ public class GamePlayCanvasManager : MonoBehaviour
 
     private void onPauseMenuRequested(bool value)
     {
-        PauseMenuUI.SetActive(value);
+        if (value)
+        {
+            InputManager.GamePlay.Disable();
+        }
+        else
+        {
+            InputManager.GamePlay.Enable();
+        }
+        PauseMenuUI.gameObject.SetActive(value);
     }
 
     private void onBlackBoardRequested(bool value)
     {
-        BlackBoardUI.SetActive(value);
+        BlackBoardUI.gameObject.SetActive(value);
     }
 
     private void onlockedDoorRequested()
@@ -81,7 +89,8 @@ public class GamePlayCanvasManager : MonoBehaviour
 
     private void onHudRequested(bool value)
     {
-        HudUI.SetActive(value);
+        //TODO : Try to enable after disabled it.
+        HudUI.gameObject.SetActive(value);
     }
 
     private void onNotificationRequested(string str, bool value)

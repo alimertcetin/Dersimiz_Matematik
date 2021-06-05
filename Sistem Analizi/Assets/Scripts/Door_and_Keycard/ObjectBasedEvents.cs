@@ -30,7 +30,6 @@ public class ObjectBasedEvents : MonoBehaviour, ISaveable
     [SerializeField] private bool uyariVerilecek = false;
 
     private bool TriggerEntered;
-    [SerializeField] private float uyariSuresi = 2f;
     [SerializeField] private string UyariText = "WARNING";
 
     private void OnEnable()

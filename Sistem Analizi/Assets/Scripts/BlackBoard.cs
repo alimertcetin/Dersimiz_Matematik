@@ -46,7 +46,7 @@ public class BlackBoard : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggered = true;
-            notificationChannel.RaiseEvent("Press " + InputManager.PlayerControls.Gameplay.Interact.name + " to interact with BlackBoard");
+            notificationChannel.RaiseEvent("Press " + InputManager.InteractionKeyName + " to interact with BlackBoard");
         }
     }
 
@@ -60,7 +60,7 @@ public class BlackBoard : MonoBehaviour
             }
             else
             {
-                notificationChannel.RaiseEvent("Press " + InputManager.PlayerControls.Gameplay.Interact.name + " to interact with BlackBoard");
+                notificationChannel.RaiseEvent("Press " + InputManager.InteractionKeyName + " to interact with BlackBoard");
             }
         }
     }

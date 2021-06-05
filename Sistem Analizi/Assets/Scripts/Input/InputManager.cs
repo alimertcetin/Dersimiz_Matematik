@@ -3,6 +3,7 @@
 public static class InputManager
 {
     public static PlayerControls PlayerControls = new PlayerControls();
+    public static string InteractionKeyName { get => PlayerControls.Gameplay.Interact.name; }
 
     public static void DisableAllInput()
     {

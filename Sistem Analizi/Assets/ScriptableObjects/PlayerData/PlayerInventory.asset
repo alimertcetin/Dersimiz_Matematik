@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d569a9f39ad314096914ef975eb190, type: 3}
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
-  Capacity: 5
+  Capacity: 18
   Rakam_0: 50
   Rakam_1: 50
-  Rakam_2: 50
+  Rakam_2: 46
   Rakam_3: 50
-  Rakam_4: 50
-  Rakam_5: 50
-  Rakam_6: 50
+  Rakam_4: 47
+  Rakam_5: 49
+  Rakam_6: 48
   Rakam_7: 50
   Rakam_8: 50
-  Rakam_9: 50
+  Rakam_9: 47
   yesilKeycard: 0
   sariKeycard: 0
   kirmiziKeycard: 0

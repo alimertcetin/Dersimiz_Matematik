@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(menuName = "PlayerData/Inventory")]
 public class PlayerInventorySO : ScriptableObject
 {
+    public Action InventoryChanged_Number = default;
+    public Action InventoryChanged_Keycard = default;
+
     public int Capacity = 5;
 
     public int Rakam_0 = 0;
@@ -15,7 +19,7 @@ public class PlayerInventorySO : ScriptableObject
     public int Rakam_7 = 0;
     public int Rakam_8 = 0;
     public int Rakam_9 = 0;
-    
+
     public int yesilKeycard = 0;
     public int sariKeycard = 0;
     public int kirmiziKeycard = 0;
@@ -50,94 +54,120 @@ public class PlayerInventorySO : ScriptableObject
         kirmiziKeycard = 50;
     }
 
-    public bool Sayi_EnvantereEkle_Success(int Sayi, int Amount)
+    private bool Sayi_EnvantereEkle_Success(int Sayi, int Amount)
     {
         if (Sayi == 0)
         {
-            Rakam_0 += Amount; return true;
+            Rakam_0 += Amount;
+            return true;
         }
         else if (Sayi == 1)
         {
-            Rakam_1 += Amount; return true;
+            Rakam_1 += Amount;
+            return true;
         }
         else if (Sayi == 2)
         {
-            Rakam_2 += Amount; return true;
+            Rakam_2 += Amount;
+            return true;
         }
         else if (Sayi == 3)
         {
-            Rakam_3 += Amount; return true;
+            Rakam_3 += Amount;
+            return true;
         }
         else if (Sayi == 4)
         {
-            Rakam_4 += Amount; return true;
+            Rakam_4 += Amount;
+            return true;
         }
         else if (Sayi == 5)
         {
-            Rakam_5 += Amount; return true;
+            Rakam_5 += Amount;
+            return true;
         }
         else if (Sayi == 6)
         {
-            Rakam_6 += Amount; return true;
+            Rakam_6 += Amount;
+            return true;
         }
         else if (Sayi == 7)
         {
-            Rakam_7 += Amount; return true;
+            Rakam_7 += Amount;
+            return true;
         }
         else if (Sayi == 8)
         {
-            Rakam_8 += Amount; return true;
+            Rakam_8 += Amount;
+            return true;
         }
         else if (Sayi == 9)
         {
-            Rakam_9 += Amount; return true;
+            Rakam_9 += Amount;
+            return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
-    public bool Sayi_EnvanterdenCikar_Success(int Sayi, int Amount)
+    private bool Sayi_EnvanterdenCikar_Success(int Sayi, int Amount)
     {
         if (Sayi == 0)
         {
-            Rakam_0 -= Amount; return true;
+            Rakam_0 -= Amount;
+            return true;
         }
         else if (Sayi == 1)
         {
-            Rakam_1 -= Amount; return true;
+            Rakam_1 -= Amount;
+            return true;
         }
         else if (Sayi == 2)
         {
-            Rakam_2 -= Amount; return true;
+            Rakam_2 -= Amount;
+            return true;
         }
         else if (Sayi == 3)
         {
-            Rakam_3 -= Amount; return true;
+            Rakam_3 -= Amount;
+            return true;
         }
         else if (Sayi == 4)
         {
-            Rakam_4 -= Amount; return true;
+            Rakam_4 -= Amount;
+            return true;
         }
         else if (Sayi == 5)
         {
-            Rakam_5 -= Amount; return true;
+            Rakam_5 -= Amount;
+            return true;
         }
         else if (Sayi == 6)
         {
-            Rakam_6 -= Amount; return true;
+            Rakam_6 -= Amount;
+            return true;
         }
         else if (Sayi == 7)
         {
-            Rakam_7 -= Amount; return true;
+            Rakam_7 -= Amount;
+            return true;
         }
         else if (Sayi == 8)
         {
-            Rakam_8 -= Amount; return true;
+            Rakam_8 -= Amount;
+            return true;
         }
         else if (Sayi == 9)
         {
-            Rakam_9 -= Amount; return true;
+            Rakam_9 -= Amount;
+            return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
@@ -145,17 +175,50 @@ public class PlayerInventorySO : ScriptableObject
     /// </summary>
     public bool InventoryControl_Sayi(int value)
     {
-        if (value == 0 && Rakam_0 > 0) return true;
-        else if (value == 1 && Rakam_1 > 0) return true;
-        else if (value == 2 && Rakam_2 > 0) return true;
-        else if (value == 3 && Rakam_3 > 0) return true;
-        else if (value == 4 && Rakam_4 > 0) return true;
-        else if (value == 5 && Rakam_5 > 0) return true;
-        else if (value == 6 && Rakam_6 > 0) return true;
-        else if (value == 7 && Rakam_7 > 0) return true;
-        else if (value == 8 && Rakam_8 > 0) return true;
-        else if (value == 9 && Rakam_9 > 0) return true;
-        else return false;
+        if (value == 0 && Rakam_0 > 0)
+        {
+            return true;
+        }
+        else if (value == 1 && Rakam_1 > 0)
+        {
+            return true;
+        }
+        else if (value == 2 && Rakam_2 > 0)
+        {
+            return true;
+        }
+        else if (value == 3 && Rakam_3 > 0)
+        {
+            return true;
+        }
+        else if (value == 4 && Rakam_4 > 0)
+        {
+            return true;
+        }
+        else if (value == 5 && Rakam_5 > 0)
+        {
+            return true;
+        }
+        else if (value == 6 && Rakam_6 > 0)
+        {
+            return true;
+        }
+        else if (value == 7 && Rakam_7 > 0)
+        {
+            return true;
+        }
+        else if (value == 8 && Rakam_8 > 0)
+        {
+            return true;
+        }
+        else if (value == 9 && Rakam_9 > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
@@ -166,19 +229,19 @@ public class PlayerInventorySO : ScriptableObject
         if (keycard == Door_and_Keycard_Level.Yesil)
         {
             yesilKeycard++;
-
+            InventoryChanged_Keycard.Invoke();
             return true;
         }
         else if (keycard == Door_and_Keycard_Level.Sari)
         {
             sariKeycard++;
-            //txt_Manager_Info.SetKeycardChildTexts();
+            InventoryChanged_Keycard.Invoke();
             return true;
         }
         else if (keycard == Door_and_Keycard_Level.Kirmizi)
         {
             kirmiziKeycard++;
-            //txt_Manager_Info.SetKeycardChildTexts();
+            InventoryChanged_Keycard.Invoke();
             return true;
         }
         else
@@ -198,61 +261,63 @@ public class PlayerInventorySO : ScriptableObject
 
         if (KeycardColor == "green" && yesilKeycard > 0)
         {
-            DecreaseKeycardAmount(KeycardColor);
+            yesilKeycard--;
+            InventoryChanged_Keycard.Invoke();
             return true;
         }
         else if (KeycardColor == "yellow" && sariKeycard > 0)
         {
-            DecreaseKeycardAmount(KeycardColor);
+            sariKeycard--;
+            InventoryChanged_Keycard.Invoke();
             return true;
         }
         else if (KeycardColor == "red" && kirmiziKeycard > 0)
         {
-            DecreaseKeycardAmount(KeycardColor);
-            return true;
-        }
-        else return false;
-    }
-
-    private void DecreaseKeycardAmount(string KeycardColor)
-    {
-        if (KeycardColor == "green")
-        {
-            yesilKeycard--;
-        }
-        else if (KeycardColor == "yellow")
-        {
-            sariKeycard--;
-        }
-        else if (KeycardColor == "red")
-        {
             kirmiziKeycard--;
+            InventoryChanged_Keycard.Invoke();
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
     /// <summary>
     /// İşlem başarılıysa true döndürür.
     /// </summary>
-    public bool Sayi_Ekle(int _eklenecekSayi, int _eklenecekMiktar)
+    /// <param name="sayi">Eklenecek Sayı</param>
+    /// <param name="miktar">Eklenecek Miktar</param>
+    public bool Sayi_Ekle(int sayi, int miktar)
     {
-        if (Capacity > 0 && Sayi_EnvantereEkle_Success(_eklenecekSayi, _eklenecekMiktar))
+        if (Capacity > 0 && Sayi_EnvantereEkle_Success(sayi, miktar))
         {
-            Capacity -= _eklenecekMiktar;
+            Capacity -= miktar;
+            InventoryChanged_Number.Invoke();
             return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
     /// İşlem başarılıysa true döndürür.
     /// </summary>
-    public bool Sayi_Cikar(int _cikarilacakSayi, int _cikarilacakMiktar)
+    /// <param name="sayi">Çıkartılacak Sayı</param>
+    /// <param name="miktar">Çıkartılacak Miktar</param>
+    public bool Sayi_Cikar(int sayi, int miktar)
     {
-        if (Sayi_EnvanterdenCikar_Success(_cikarilacakSayi, _cikarilacakMiktar))
+        if (Sayi_EnvanterdenCikar_Success(sayi, miktar))
         {
-            Capacity += _cikarilacakMiktar;
+            Capacity += miktar;
+            InventoryChanged_Number.Invoke();
             return true;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
 }

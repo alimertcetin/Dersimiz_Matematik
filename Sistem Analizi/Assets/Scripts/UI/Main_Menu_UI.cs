@@ -1,27 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Main_Menu_UI : MonoBehaviour
+namespace XIV.UI
 {
-    [SerializeField] GameObject Main = null, SettingsMenu = null;
-
-    public void btn_Start() => SceneManager.LoadScene(1);
-
-    public void btn_Settings()
+    public class Main_Menu_UI : MonoBehaviour
     {
-        Main.SetActive(false);
-        SettingsMenu.SetActive(true);
+        [SerializeField] private GameObject Settings = null;
+        [SerializeField] private GameObject Main = null;
+
+        public void btn_Start() => SceneManager.LoadScene(1);
+
+        public void btn_Settings()
+        {
+            Settings.SetActive(true);
+            Main.SetActive(false);
+        }
+
+        public void btn_Exit() => Application.Quit();
+
+        //public void btn_Back()
+        //{
+        //    if (SettingsMenu.activeSelf && !Main.activeSelf)
+        //    {
+        //        SettingsMenu.SetActive(false);
+        //        Main.SetActive(true);
+        //    }
+        //}
+
     }
-
-    public void btn_Exit() => Application.Quit();
-
-    //public void btn_Back()
-    //{
-    //    if (SettingsMenu.activeSelf && !Main.activeSelf)
-    //    {
-    //        SettingsMenu.SetActive(false);
-    //        Main.SetActive(true);
-    //    }
-    //}
-
 }

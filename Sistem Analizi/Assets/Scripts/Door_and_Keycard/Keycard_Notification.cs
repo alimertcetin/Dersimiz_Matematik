@@ -68,7 +68,7 @@ public class Keycard_Notification : MonoBehaviour
             Debug.LogWarning(name + " Keycard türüne ulaşamadı.");
         }
 
-        return keycardType + " Keycard'ı toplamak için " + InputManager.PlayerControls.Gameplay.Interact.name
+        return keycardType + " Keycard'ı toplamak için " + InputManager.InteractionKeyName
             + " tuşuna bas.";
     }
 

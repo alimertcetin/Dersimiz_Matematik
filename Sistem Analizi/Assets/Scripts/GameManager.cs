@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour, PlayerControls.IGameManagerActions
 {
-    [SerializeField] private GameObject pauseMenu = default;
+    [SerializeField] private GamePlayCanvasManager gamePlayCanvasManager = default;
+    [SerializeField] private BoolEventChannelSO PauseMenuUIChannel = default;
 
     private void Awake()
     {
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour, PlayerControls.IGameManagerActions
         {
             return true;
         }
-        else if (pauseMenu.activeSelf)
+        else if (gamePlayCanvasManager.pauseMenu_acitveSelf)
         {
             return true;
         }
@@ -74,15 +75,17 @@ public class GameManager : MonoBehaviour, PlayerControls.IGameManagerActions
     {
         if (context.performed)
         {
-            if (!pauseMenu.activeSelf)
+            if (!gamePlayCanvasManager.pauseMenu_acitveSelf)
             {
                 CursorManager.Instance.UnlockCursor();
-                pauseMenu.SetActive(true);
+                InputManager.GamePlay.Disable();
+                PauseMenuUIChannel.RaiseEvent(true);
             }
             else
             {
                 CursorManager.Instance.LockCursor();
-                pauseMenu.SetActive(false);
+                InputManager.GamePlay.Enable();
+                PauseMenuUIChannel.RaiseEvent(false);
             }
         }
     }

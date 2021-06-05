@@ -44,7 +44,7 @@ public class Door_Notification : MonoBehaviour
 
             if (doorLocked)
             {
-                notificationChannel.RaiseEvent("Door is locked. Press " + InputManager.PlayerControls.Gameplay.Interact.name
+                notificationChannel.RaiseEvent("Door is locked. Press " + InputManager.InteractionKeyName
                     + " button to see the Question.");
             }
         }
@@ -74,7 +74,7 @@ public class Door_Notification : MonoBehaviour
         }
         else if (doorLocked)
         {
-            notificationChannel.RaiseEvent("Door is locked. Press " + InputManager.PlayerControls.Gameplay.Interact.name
+            notificationChannel.RaiseEvent("Door is locked. Press " + InputManager.InteractionKeyName
                 + " button to see the Question.");
         }
     }
@@ -104,11 +104,11 @@ public class Door_Notification : MonoBehaviour
     {
         if (isDoorOpen)
         {
-            return "Press " + InputManager.PlayerControls.Gameplay.Interact.name + " to Close";
+            return "Press " + InputManager.InteractionKeyName + " to Close";
         }
         else
         {
-            return "Press " + InputManager.PlayerControls.Gameplay.Interact.name + " to Open";
+            return "Press " + InputManager.InteractionKeyName + " to Open";
         }
     }
 

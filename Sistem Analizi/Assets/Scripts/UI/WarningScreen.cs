@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
-public class WarningScreen : MonoBehaviour
+namespace XIV.UI
 {
-    private TMP_Text txt_Uyari;
-
-    private void Awake()
+    public class WarningScreen : MonoBehaviour
     {
-        txt_Uyari = GetComponentInChildren<TMP_Text>();
-    }
+        private TMP_Text txt_Uyari;
 
-    public void SetText(string text)
-    {
-        txt_Uyari.text = text;
+        private void Awake()
+        {
+            txt_Uyari = GetComponentInChildren<TMP_Text>();
+        }
+
+        public void SetText(string text)
+        {
+            txt_Uyari.text = text;
+        }
     }
 }

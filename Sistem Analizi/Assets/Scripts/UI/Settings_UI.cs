@@ -1,33 +1,38 @@
 ﻿using UnityEngine;
 using TMPro;
 
-public class Settings_UI : MonoBehaviour
+namespace XIV.UI
 {
-    [SerializeField] GameObject[] Hud;
-    [SerializeField] GameObject Main;
-    [SerializeField] TMP_Text Hud_Button_Text, Animation_Button_Text;
-    Player_AnimController LP_AnimControl;
-    private void Awake()
+    public class Settings_UI : MonoBehaviour
     {
-        LP_AnimControl = FindObjectOfType<Player_AnimController>();
-    }
+        [SerializeField] private HUD_UI Hud = default;
+        [SerializeField] private GameObject Main = default;
+        [SerializeField] private TMP_Text Hud_Button_Text = default;
+        [SerializeField] private TMP_Text Animation_Button_Text = default;
 
-    public void btn_Hud()
-    {
-        foreach (var item in Hud)
+        private Player_AnimController playerAnimController;
+
+        private void Awake()
         {
-            item.SetActive(!item.activeSelf);
-            Hud_Button_Text.text = item.activeSelf ? "Hud Açık" : "Hud Kapalı";
+            playerAnimController = FindObjectOfType<Player_AnimController>();
         }
-    }
-    public void btn_Animation()
-    {
-        LP_AnimControl.enabled = !LP_AnimControl.enabled;
-        Animation_Button_Text.text = LP_AnimControl.enabled ? "Anim Açık" : "Anim Kapalı";
-    }
-    public void btn_Back()
-    {
-        Main.SetActive(true);
-        this.gameObject.SetActive(false);
+
+        public void btn_Hud()
+        {
+            Hud.gameObject.SetActive(!Hud.gameObject.activeSelf);
+            Hud_Button_Text.text = Hud.gameObject.activeSelf ? "Hud Açık" : "Hud Kapalı";
+        }
+
+        public void btn_Animation()
+        {
+            playerAnimController.enabled = !playerAnimController.enabled;
+            Animation_Button_Text.text = playerAnimController.enabled ? "Anim Açık" : "Anim Kapalı";
+        }
+
+        public void btn_Back()
+        {
+            Main.SetActive(true);
+            this.gameObject.SetActive(false);
+        }
     }
 }

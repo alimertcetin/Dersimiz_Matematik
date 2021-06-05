@@ -1,18 +1,20 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
-public class Notification : MonoBehaviour
+namespace XIV.UI
 {
-    private TMP_Text txt;
-
-    private void Awake()
+    public class Notification : MonoBehaviour
     {
-        txt = GetComponentInChildren<TMP_Text>();
-    }
+        private TMP_Text txt;
 
-    public void SetText(string text)
-    {
-        txt.text = text;
+        private void Awake()
+        {
+            txt = GetComponentInChildren<TMP_Text>();
+        }
+
+        public void SetText(string text)
+        {
+            txt.text = text;
+        }
     }
 }

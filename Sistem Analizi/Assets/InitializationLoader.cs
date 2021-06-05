@@ -20,6 +20,9 @@ public class InitializationLoader : MonoBehaviour
 
     private void Start()
     {
+        InputManager.DisableAllInput();
+        CursorManager.Instance.UnlockCursor();
+
         //Load the persistent managers scene
         _managersScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true).Completed += LoadEventChannel;
     }
@@ -40,8 +43,6 @@ public class InitializationLoader : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         eventChannelSO.RaiseEvent(_menuToLoad);
-
-        Cursor.lockState = CursorLockMode.Confined;
 
         SceneManager.UnloadSceneAsync(0); //Initialization is the only scene in BuildSettings, thus it has index 0
     }
